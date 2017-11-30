@@ -1,0 +1,136 @@
+
+
+/**********************  Landing Page  ********************************/
+
+h1 {
+  padding-top: 10%;
+}
+
+h3 {
+  text-align: center;
+}
+
+p {
+  font-size: 36px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.center {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+#start-btn {
+  width: 150px;
+  height: 50px;
+  background: #FFFFFF;
+  margin-top: 50px;
+}
+
+.navbar ul {
+  float: right;
+}
+
+.home-top {
+  margin-top: 50px;
+  width: 100%;
+  height: 600px;
+  text-align: center;
+  background: url(https://static.pexels.com/photos/261909/pexels-photo-261909.jpeg);
+  background-size: cover;
+  background-position: center;
+  color: #D4DE00;
+  text-shadow: 1px 1px 2px black;
+}
+
+.home-color {
+  background-color: #808080;
+}
+
+.home-block {
+  padding: 20px;
+  display: block;
+}
+
+.home-block ul {
+  list-style: none;
+  text-align: center;
+  font-size: 36px;
+  padding: 0;
+}
+
+.home-block img {
+  height: 100%
+}
+
+#start-btn {
+  display: block;
+  margin: 20px auto;
+}
+
+.footer {
+  height: 50px;
+}
+
+
+/**********************  Login  ********************************/
+
+#login-page {
+  width: 60%;
+  margin: 5% auto;
+}
+
+#login-header {
+  text-align: center;
+}
+
+#login-page input {
+  width: 50%;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+}
+
+#login-page p {
+  font-size: 16px;
+  text-align: center;
+}
+
+#login-form {
+  width: 60%;
+  margin: 10% auto;
+  border: 1px solid black;
+}
+
+#login-btn {
+  width: 100px;
+  height: 30px;
+  display: block;
+  margin: 20px auto;
+}
+
+
+
+/**********************  Media Queries ********************************/
+
+@media screen and (max-width: 768px) {
+#login-page {
+  width: 100%;
+  margin-top: 100px;
+  padding: 20px;
+}
+
+#login-form {
+  width: 100%;
+  padding: 20px;
+}
+
+}
