@@ -6,9 +6,9 @@ $(() => {
   });
 
   displayNotes();
-  
-  
-  
+
+
+
 	$('#note-form').submit(() => {
 		event.preventDefault();
 		let note = {};
@@ -27,11 +27,20 @@ $(() => {
 
 function displayNotes() {
 	console.log("displayNotes");
-	$.getJSON(NOTES_PATH, (notes) => {
-		console.log(notes);
-		const notesList = notes.map((item, index) => renderNotes(item));
-		$('.notes-display').html(notesList);
-		});
+	// $.getJSON(NOTES_PATH, (notes) => {
+	// 	console.log(notes);
+	// 	const notesList = notes.map((item, index) => renderNotes(item));
+	// 	$('.notes-display').html(notesList);
+	// 	});
+  $.ajax({
+		method: 'GET',
+		url: '/api/notes',
+		success: (data) => {
+			console.log(data);
+		},
+		dataType: 'json',
+		contentType: 'application/json'
+	});
 	}
 
 
