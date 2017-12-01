@@ -1,27 +1,21 @@
 'use strict';
 require('dotenv').config();
+const {PORT, DATABASE_URL} = require('./config');
+
 const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
 
-// Here we use destructuring assignment with renaming so the two variables
-// called router (from ./users and ./auth) have different names
-// For example:
-// const actorSurnames = { james: "Stewart", robert: "De Niro" };
-// const { james: jimmy, robert: bobby } = actorSurnames;
-// console.log(jimmy); // Stewart - the variable name is jimmy, not james
-// console.log(bobby); // De Niro - the variable name is bobby, not robert
-const { router: usersRouter } = require('./users');
-const { router: notesRouter } = require('./notes');
-
-const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const app = express();
 
 mongoose.Promise = global.Promise;
 
-const { PORT, DATABASE_URL } = require('./config');
+// const { router: usersRouter } = require('./users');
+const { router: notesRouter } = require('./notes');
 
-const app = express();
+// const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+
 
 // Logging
 app.use(morgan('common'));
@@ -38,30 +32,120 @@ app.use(function (req, res, next) {
   next();
 });
 
-passport.use(localStrategy);
-passport.use(jwtStrategy);
+// passport.use(localStrategy);
+// passport.use(jwtStrategy);
 
-app.use('/api/users/', usersRouter);
-app.use('/api/auth/', authRouter);
+// app.use('/api/users/', usersRouter);
+// app.use('/api/auth/', authRouter);
 app.use('/api/notes/', notesRouter);
 
-
-
-const jwtAuth = passport.authenticate('jwt', { session: false });
+// const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // A protected endpoint which needs a valid JWT to access it
-app.get('/api/protected', jwtAuth, (req, res) => {
-  return res.json({
-    data: 'rosebud'
-  });
-});
+// app.get('/api/protected', jwtAuth, (req, res) => {
+//   return res.json({
+//     data: 'rosebud'
+//   });
+// });
+
+
+
+// app.get('/posts', (req, res) => {
+//   Post
+//     .find()
+//     .then(posts => {
+//       res.json({
+//           posts: posts.map(
+//           (post) => post.userFormat())
+//         });
+//     })
+//     .catch(
+//       err => {
+//         console.error(err);
+//         res.status(500).json({message: 'Error in request'});
+//     });
+// });
+
+// app.get('/posts/:id', (req, res) => {
+//   Post
+//   .findById(req.params.id)
+//   .then(post => {
+//     res.json(post.userFormat())
+//   })
+//   .catch(
+//     err => {
+//       console.log(err);
+//       res.status(500).json({message: 'Error in request'});
+//     });
+// });
+
+// app.post('/posts', (req, res) => {
+//   const requiredParams = ['title', 'content', 'author'];
+//   for (let i = 0; i < requiredParams.length; i++) {
+//     const param = requiredParams[i];
+//     if (!(param in req.body)) {
+//       const message = `Must include \`${param}\` in request body`
+//       console.error(message);
+//       return res.status(400).send(message);
+//     }
+//   }
+
+//   Post
+//     .create({
+//       title: req.body.title,
+//       content: req.body.content,
+//       author: req.body.author
+//     })
+//     .then(Post => res.status(201).json(Post.userFormat()))
+//     .catch(err => {
+//         console.error(err);
+//         res.status(500).json({error: 'Error in request'});
+//     });
+// });
+
+// app.put('/posts/:id', (req, res) => {
+//   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+//     const message = (
+//       `Request path id (${req.params.id}) and request body id ` +
+//       `(${req.body.id}) must match`);
+//     console.error(message);
+//     return res.status(400).json({message: message});
+//   }
+
+//   const postUpdate = {};
+//   const updateableParams = ['title', 'content', 'author'];
+
+//   updateableParams.forEach(param => {
+//     if (param in req.body) {
+//       postUpdate[param] = req.body[param];
+//     }
+//   });
+
+//   Post
+//     .findByIdAndUpdate(req.params.id, {$set: postUpdate})
+//     .then(post => res.status(204).end())
+//     .catch(err => res.status(500).json({message: 'Error in request'}));
+// });
+
+// app.delete('/posts/:id', (req, res) => {
+//   Post
+//     .findByIdAndRemove(req.params.id)
+//     .then(post => res.status(204).end())
+//     .catch(err => res.status(500).json({message: 'Error in request'}));
+// });
+
+
+
+
+
+
+
+
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });
 });
 
-// Referenced by both runServer and closeServer. closeServer
-// assumes runServer has run and set `server` to a server object
 let server;
 
 function runServer() {
