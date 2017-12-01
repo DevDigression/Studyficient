@@ -1,12 +1,25 @@
-// const DATABASE_URL = 'mongodb://notes:notes@ds155820.mlab.com:55820/mongo-projects';
+const NOTES_PATH = '/api/notes';
 
-
-$(document).ready(function() {
+$(() => {
   $('[data-toggle=offcanvas]').click(function() {
     $('.row-offcanvas').toggleClass('active');
   });
 
   displayNotes();
+  
+  
+  
+	$('#note-form').submit(() => {
+		event.preventDefault();
+		let note = {};
+		note.subject = $('#subject').val();
+		note.title = $('#title').val();
+		note.content = $('#note-content').val();
+		$('input').val("")
+    console.log(note);
+		addNote(note);
+	});
+
 });
 
 
@@ -14,15 +27,15 @@ $(document).ready(function() {
 
 function displayNotes() {
 	console.log("displayNotes");
-	$.getJSON(DATABASE_URL, (notes) => {
+	$.getJSON(NOTES_PATH, (notes) => {
 		console.log(notes);
-		const notesList = notes.map((item, index) => {renderNotes(item)});
+		const notesList = notes.map((item, index) => renderNotes(item));
 		$('.notes-display').html(notesList);
 		});
 	}
 
 
-function renderNote(currentNote) {
+function renderNotes(currentNote) {
 	return `<div class="note">
 	<h2>${currentNote.subject}</h2>
 	<h3>By ${currentNote.title}</h3>
@@ -32,9 +45,11 @@ function renderNote(currentNote) {
 }
 
 function addNote(note) {
+  console.log("addNote: ");
+  console.log(note);
 	$.ajax({
 		method: 'POST',
-		url: DATABASE_URL,
+		url: '/api/notes',
 		data: JSON.stringify(note),
 		success: (data) => {
 			displayNotes();
