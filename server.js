@@ -40,6 +40,7 @@ app.use(function (req, res, next) {
 // app.use('/api/users/', usersRouter);
 // app.use('/api/auth/', authRouter);
 app.use('/api/notes/', notesRouter);
+app.use('/api/notes/:title', notesRouter);
 
 // const jwtAuth = passport.authenticate('jwt', { session: false });
 
@@ -50,12 +51,23 @@ app.use('/api/notes/', notesRouter);
 //   });
 // });
 
+app.get('/api/notes/:title', (req, res) => {
+  Note
+  .findOne({title: req.params.title})
+  .then(note => {
+    res.json(note.apiRepresentation())
+  })
+  .catch(
+    err => {
+      console.log(err);
+      res.status(500).json({message: 'Error in request'});
+    });
+});
 
-
-app.get('/api/notes', (req, res) => {
+app.get('/', (req, res) => {
   Note
     .find()
-    .then(posts => {
+    .then(notes => {
       res.json({
           notes: notes.map(
           (note) => note.apiRepresentation())
@@ -67,19 +79,6 @@ app.get('/api/notes', (req, res) => {
         res.status(500).json({message: 'Error in request'});
     });
 });
-
-// app.get('/posts/:id', (req, res) => {
-//   Post
-//   .findById(req.params.id)
-//   .then(post => {
-//     res.json(post.userFormat())
-//   })
-//   .catch(
-//     err => {
-//       console.log(err);
-//       res.status(500).json({message: 'Error in request'});
-//     });
-// });
 
 app.post('/api/notes', (req, res) => {
   const requiredParams = ['title', 'content', 'author'];

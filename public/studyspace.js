@@ -7,9 +7,7 @@ $(() => {
     $('.row-offcanvas').toggleClass('active');
   });
 
-  displayNotes();
-
-
+  	displayNotes();
 
 	$('#note-form').submit(() => {
 		event.preventDefault();
@@ -22,18 +20,48 @@ $(() => {
 		addNote(note);
 	});
 
+	$('.notes-display').on('click', 'button', (event) => {
+		event.preventDefault();
+		const thisNote = $(event.currentTarget).parent().attr('data-title');
+		console.log(thisNote);
+		displayModal(thisNote);
+	});
+
 });
 
-
-
+function displayModal(noteTitle) {
+console.log("displayModal: " + noteTitle);
+  $.ajax({
+		method: 'GET',
+		url: '/api/notes/' + noteTitle,
+		success: (note) => {
+					return `<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModal">${note.title}</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	${note.content}
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						        <button type="submit" class="btn btn-primary">Submit</button>
+						      </div>
+						    </div>
+						</div>
+					</div>`
+		},
+		dataType: 'json',
+		contentType: 'application/json'
+	});
+	}
 
 function displayNotes() {
-	console.log("displayNotes");
-	// $.getJSON(NOTES_PATH, (notes) => {
-	// 	console.log(notes);
-	// 	const notesList = notes.map((item, index) => renderNotes(item));
-	// 	$('.notes-display').html(notesList);
-	// 	});
+console.log("displayNotes");
   $.ajax({
 		method: 'GET',
 		url: '/api/notes',
@@ -45,16 +73,44 @@ function displayNotes() {
 		dataType: 'json',
 		contentType: 'application/json'
 	});
-	}
+}
 
+function renderNotes(note) {
+	return `<div data-title="${note.title}">
+			<button type="button" class="note-button btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  			${note.title}
+			</button>
+			</div>`
 
-function renderNotes(currentNote) {
-	return `<div class="note">
-	<h2>${currentNote.subject}</h2>
-	<h3>By ${currentNote.title}</h3>
-	<p>${currentNote.content}</p>
-	<button class="delete">Delete Note</button>
-	</div>`;
+	// return `<div class="note">
+	// <h2>${currentNote.subject}</h2>
+	// <h3>${currentNote.title}</h3>
+	// <p>${currentNote.content}</p>
+	// <button class="delete">Delete Note</button>
+	// </div>`;
+}
+
+function displayNoteModal(currentNote) {
+	console.log("displayNote: " + currentNote);
+			return `<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModal">${currentNote.title}</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						      	${currentNote.content}
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						        <button type="submit" class="btn btn-primary">Submit</button>
+						      </div>
+						    </div>
+						</div>
+					</div>`
 }
 
 function addNote(note) {

@@ -30,7 +30,7 @@
 				<ul class="nav nav-pills nav-stacked">
 					<li><a href="#">History</a></li>
 					<li><a href="#">Literature</a></li>
-					<li class="active"><a href="#">Math</a></li>
+					<li><a href="#">Math</a></li>
 					<li><a href="#">Science</a></li>
 					<li><a href="#">Add New Subject</a></li>
 				</ul>
@@ -78,13 +78,40 @@
 		</div>
 	</div>
 
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<form>
+<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModal">Note Title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<textarea rows="6" cols="75" name="note" form="note-form"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!-- 
 <form id="note-form">
   <h2>New Note</h2>
 	<input type="text" id="subject" placeholder="Subject">
 	<input type="text" id="title" placeholder="Title">
 	<input type="text" id="note-content" placeholder="Type Note">
 	<button id="note-submit">Submit</button>
-</form>
+</form> -->
 
 <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

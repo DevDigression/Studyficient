@@ -7,7 +7,18 @@ const router = express.Router();
 
 const jsonParser = bodyParser.json();
 
-
+router.get('/api/notes/:title', (req, res) => {
+  Note
+  .findOne({title: req.params.title})
+  .then(note => {
+    res.json(note.apiRepresentation())
+  })
+  .catch(
+    err => {
+      console.log(err);
+      res.status(500).json({message: 'Error in request'});
+    });
+});
 
 router.get('/', (req, res) => {
 	// res.json({note:"hello"});
