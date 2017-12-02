@@ -9,6 +9,8 @@ const passport = require('passport');
 
 const app = express();
 
+const {Note} = require('./notes/models');
+
 mongoose.Promise = global.Promise;
 
 // const { router: usersRouter } = require('./users');
@@ -50,21 +52,21 @@ app.use('/api/notes/', notesRouter);
 
 
 
-// app.get('/posts', (req, res) => {
-//   Post
-//     .find()
-//     .then(posts => {
-//       res.json({
-//           posts: posts.map(
-//           (post) => post.userFormat())
-//         });
-//     })
-//     .catch(
-//       err => {
-//         console.error(err);
-//         res.status(500).json({message: 'Error in request'});
-//     });
-// });
+app.get('/api/notes', (req, res) => {
+  Note
+    .find()
+    .then(posts => {
+      res.json({
+          notes: notes.map(
+          (note) => note.apiRepresentation())
+        });
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Error in request'});
+    });
+});
 
 // app.get('/posts/:id', (req, res) => {
 //   Post
@@ -79,29 +81,30 @@ app.use('/api/notes/', notesRouter);
 //     });
 // });
 
-// app.post('/posts', (req, res) => {
-//   const requiredParams = ['title', 'content', 'author'];
-//   for (let i = 0; i < requiredParams.length; i++) {
-//     const param = requiredParams[i];
-//     if (!(param in req.body)) {
-//       const message = `Must include \`${param}\` in request body`
-//       console.error(message);
-//       return res.status(400).send(message);
-//     }
-//   }
+app.post('/api/notes', (req, res) => {
+  const requiredParams = ['title', 'content', 'author'];
+  for (let i = 0; i < requiredParams.length; i++) {
+    const param = requiredParams[i];
+    if (!(param in req.body)) {
+      const message = `Must include \`${param}\` in request body`
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
 
-//   Post
-//     .create({
-//       title: req.body.title,
-//       content: req.body.content,
-//       author: req.body.author
-//     })
-//     .then(Post => res.status(201).json(Post.userFormat()))
-//     .catch(err => {
-//         console.error(err);
-//         res.status(500).json({error: 'Error in request'});
-//     });
-// });
+  Note
+    .create({
+      subject: req.body.subject,
+      title: req.body.title,
+      content: req.body.content
+    })
+    .then(Note => res.status(201).json(Note.apiRepresentation()))
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'Error in request'});
+    });
+});
+
 
 // app.put('/posts/:id', (req, res) => {
 //   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const {notes} = require('./models');
+const {Note} = require('./models');
 
 const router = express.Router();
 
@@ -10,7 +10,20 @@ const jsonParser = bodyParser.json();
 
 
 router.get('/', (req, res) => {
-	res.json({note:"hello"});
+	// res.json({note:"hello"});
+  Note
+    .find()
+    .then(notes => {
+      res.json({
+          notes: notes.map(
+          (note) => note.apiRepresentation())
+        });
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Error in request'});
+    });
 });
 
 router.post('/', jsonParser, (req, res) => {
@@ -26,8 +39,17 @@ router.post('/', jsonParser, (req, res) => {
 		}
 	}
 
-//const newNote = notes.create(req.body.subject, req.body.title, req.body.content);
-	res.status(201).json(newNote);
+  Note
+    .create({
+      subject: req.body.subject,
+      title: req.body.title,
+      content: req.body.content
+    })
+    .then(Note => res.status(201).json(Note.apiRepresentation()))
+    .catch(err => {
+        console.error(err);
+        res.status(500).json({error: 'Error in request'});
+    });
 });
 
 

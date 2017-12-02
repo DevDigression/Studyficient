@@ -1,3 +1,5 @@
+// const {Note} = require('./models');
+
 const NOTES_PATH = '/api/notes';
 
 $(() => {
@@ -36,7 +38,9 @@ function displayNotes() {
 		method: 'GET',
 		url: '/api/notes',
 		success: (data) => {
-			console.log(data);
+		console.log(data);
+		const notesList = data.notes.map((item, index) => renderNotes(item));
+		$('.notes-display').html(notesList);
 		},
 		dataType: 'json',
 		contentType: 'application/json'
