@@ -1,129 +1,109 @@
 // const {Note} = require('./models');
 
 const NOTES_PATH = '/api/notes';
+let state = {
+  notes:[]
+}
 
 $(() => {
   $('[data-toggle=offcanvas]').click(function() {
     $('.row-offcanvas').toggleClass('active');
   });
 
-  	displayNotes();
+  displayNotes();
 
-	$('#note-form').submit(() => {
-		event.preventDefault();
-		let note = {};
-		note.subject = $('#subject').val();
-		note.title = $('#title').val();
-		note.content = $('#note-content').val();
-		$('input').val("")
-    console.log(note);
-		addNote(note);
-	});
+  $('.new-note-button').click(() => {
+    $('#exampleModal').modal('show')
+  });
+  $('#modal-save').click((e) => {
+    e.preventDefault();
+    var note = {};
+    // TODO: note.subject = ?
+    note.title = $('#modal-title').val();
+    note.content = $('#modal-content').val();
 
-	$('.notes-display').on('click', 'button', (event) => {
-		event.preventDefault();
-		const thisNote = $(event.currentTarget).parent().attr('data-title');
-		console.log(thisNote);
-		displayModal(thisNote);
-	});
+
+    // TODO: THIS SAME FORM SAVES NEW NOTES AND EDITS OLD ONES.
+    // CHECK FOR ID ON THE FORM TO KNOW
+    let id = $('#modal-id').text();
+    console.log(id);
+
+    if (id){
+      // SAVE EDITED NOTE
+      console.log("modifying an old note");
+    }else{
+      //  NEW NOTE!
+      console.log("saving a new note");
+      addNote(note);
+    }
+  });
+
+  $("#exampleModal").on("hidden.bs.modal", function () {
+      // put your default event here
+      console.log("close");
+      clearModal();
+  });
+
+function clearModal(){
+  $('#modal-text').text("" );
+  $('#modal-title').text("");
+  $('#modal-id').text("" );
+}
+
+
+  $('.notes-display').on('click', 'button', (event) => {
+    event.preventDefault();
+    const thisNoteId = $(event.currentTarget).parents('.note-display').attr('data-id');
+    let thisNote = state.notes.find(note => note.id === thisNoteId)
+    $('#exampleModal').modal('show');
+    $('#modal-text').text(thisNote.content);
+    $('#modal-title').text(thisNote.title);
+    $('#modal-id').text(thisNote.id);
+    // TODO CLEAR FORM WHEN IT IS CLOSED
+  });
 
 });
 
-function displayModal(noteTitle) {
-console.log("displayModal: " + noteTitle);
-  $.ajax({
-		method: 'GET',
-		url: '/api/notes/' + noteTitle,
-		success: (note) => {
-					return `<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModal">${note.title}</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						      	${note.content}
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						        <button type="submit" class="btn btn-primary">Submit</button>
-						      </div>
-						    </div>
-						</div>
-					</div>`
-		},
-		dataType: 'json',
-		contentType: 'application/json'
-	});
-	}
-
 function displayNotes() {
-console.log("displayNotes");
+
   $.ajax({
-		method: 'GET',
-		url: '/api/notes',
-		success: (data) => {
-		console.log(data);
-		const notesList = data.notes.map((item, index) => renderNotes(item));
-		$('.notes-display').html(notesList);
-		},
-		dataType: 'json',
-		contentType: 'application/json'
-	});
+    method: 'GET',
+    url: '/api/notes',
+    success: (data) => {
+      state.notes=data.notes;
+      const notesList = data.notes.map((item, index) => renderNotes(item));
+      $('.notes-display').html(notesList);
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
 }
 
 function renderNotes(note) {
-	return `<div data-title="${note.title}">
-			<button type="button" class="note-button btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  			${note.title}
-			</button>
-			</div>`
-
-	// return `<div class="note">
-	// <h2>${currentNote.subject}</h2>
-	// <h3>${currentNote.title}</h3>
-	// <p>${currentNote.content}</p>
-	// <button class="delete">Delete Note</button>
-	// </div>`;
+  return `
+  <div class="col-md-3">
+  <div class="note-display" data-id=${note.id}>
+  <h3>${note.title}</h3>
+  <p>${note.content}</p>
+  <button class="edit-button btn btn-primary">	Edit </button>
+  </div>
+  </div>
+  `
 }
 
-function displayNoteModal(currentNote) {
-	console.log("displayNote: " + currentNote);
-			return `<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModal">${currentNote.title}</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						      	${currentNote.content}
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						        <button type="submit" class="btn btn-primary">Submit</button>
-						      </div>
-						    </div>
-						</div>
-					</div>`
-}
+
 
 function addNote(note) {
   console.log("addNote: ");
   console.log(note);
-	$.ajax({
-		method: 'POST',
-		url: '/api/notes',
-		data: JSON.stringify(note),
-		success: (data) => {
-			displayNotes();
-		},
-		dataType: 'json',
-		contentType: 'application/json'
-	});
+  $.ajax({
+    method: 'POST',
+    url: '/api/notes',
+    data: JSON.stringify(note),
+    success: (data) => {
+      displayNotes();
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
 }
