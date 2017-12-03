@@ -24,7 +24,8 @@ NoteSchema.methods.apiRepresentation = function() {
   return {
   	subject: this.subject,
     title: this.title,
-    content: this.content
+    content: this.content,
+    id:this._id
   };
 };
 
