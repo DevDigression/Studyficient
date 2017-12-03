@@ -72,7 +72,7 @@
 	</div>
 
 
-<form>
+<form class="new-note-form">
 <div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -80,14 +80,14 @@
         <input class="modal-title" id="modal-title" type="text" name="asd" value="asd">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-					<span id="modal-id"></span>
+			<span id="modal-id"></span>
         </button>
       </div>
       <div class="modal-body">
       	<textarea rows="6" cols="75" name="note" id="modal-text" form="note-form"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button id="modal-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button id="modal-save" class="btn btn-primary">Submit</button>
       </div>
     </div>

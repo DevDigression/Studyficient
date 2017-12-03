@@ -7,6 +7,9 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const passport = require('passport');
 
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+
 const app = express();
 
 const {Note} = require('./notes/models');
@@ -51,19 +54,6 @@ app.use('/api/notes/:title', notesRouter);
 //   });
 // });
 
-// app.get('/api/notes/:title', (req, res) => {
-//   Note
-//   .findOne({title: req.params.title})
-//   .then(note => {
-//     res.json(note.apiRepresentation())
-//   })
-//   .catch(
-//     err => {
-//       console.log(err);
-//       res.status(500).json({message: 'Error in request'});
-//     });
-// });
-
 app.get('/', (req, res) => {
   Note
     .find()
@@ -105,29 +95,29 @@ app.post('/api/notes', (req, res) => {
 });
 
 
-// app.put('/posts/:id', (req, res) => {
-//   if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-//     const message = (
-//       `Request path id (${req.params.id}) and request body id ` +
-//       `(${req.body.id}) must match`);
-//     console.error(message);
-//     return res.status(400).json({message: message});
-//   }
+app.put('/:id', jsonParser, (req, res) => {
+  // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+  //   const message = (
+  //     `Request path id (${req.params.id}) and request body id ` +
+  //     `(${req.body.id}) must match`);
+  //   console.error(message);
+  //   return res.status(400).json({message: message});
+  // }
 
-//   const postUpdate = {};
-//   const updateableParams = ['title', 'content', 'author'];
+  const noteUpdate = {};
+  const updateableParams = ['subject', 'title', 'content'];
 
-//   updateableParams.forEach(param => {
-//     if (param in req.body) {
-//       postUpdate[param] = req.body[param];
-//     }
-//   });
+  updateableParams.forEach(param => {
+    if (param in req.body) {
+      noteUpdate[param] = req.body[param];
+    }
+  });
 
-//   Post
-//     .findByIdAndUpdate(req.params.id, {$set: postUpdate})
-//     .then(post => res.status(204).end())
-//     .catch(err => res.status(500).json({message: 'Error in request'}));
-// });
+  Note
+    .findByIdAndUpdate(req.params.id, {$set: noteUpdate})
+    .then(note => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Error in request'}));
+});
 
 // app.delete('/posts/:id', (req, res) => {
 //   Post

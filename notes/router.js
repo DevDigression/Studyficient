@@ -1,24 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
 
 const {Note} = require('./models');
 
 const router = express.Router();
 
-const jsonParser = bodyParser.json();
-
-router.get('/api/notes/:title', (req, res) => {
-  Note
-  .findOne({title: req.params.title})
-  .then(note => {
-    res.json(note.apiRepresentation())
-  })
-  .catch(
-    err => {
-      console.log(err);
-      res.status(500).json({message: 'Error in request'});
-    });
-});
 
 router.get('/', (req, res) => {
 	// res.json({note:"hello"});
@@ -63,7 +50,29 @@ router.post('/', jsonParser, (req, res) => {
     });
 });
 
+router.put('/:id', jsonParser, (req, res) => {
+  // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+  //   const message = (
+  //     `Request path id (${req.params.id}) and request body id ` +
+  //     `(${req.body.id}) must match`);
+  //   console.error(message);
+  //   return res.status(400).json({message: message});
+  // }
 
+  const noteUpdate = {};
+  const updateableParams = ['subject', 'title', 'content'];
+
+  updateableParams.forEach(param => {
+    if (param in req.body) {
+      noteUpdate[param] = req.body[param];
+    }
+  });
+
+  Note
+    .findByIdAndUpdate(req.params.id, {$set: noteUpdate})
+    .then(note => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Error in request'}));
+});
 
 
 module.exports = {router};

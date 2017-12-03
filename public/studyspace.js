@@ -16,53 +16,54 @@ $(() => {
   $('#modal-save').click((event) => {
     event.preventDefault();
     var note = {};
-    // TODO: note.subject = ?
+    note.subject = "Subject"; // For now
     note.title = $('#modal-title').val();
-    note.content = $('#modal-content').val();
-
+    note.content = $('#modal-text').val();
+    console.log("note to update: " + note);
     // TODO: THIS SAME FORM SAVES NEW NOTES AND EDITS OLD ONES.
     // CHECK FOR ID ON THE FORM TO KNOW
     let id = $('#modal-id').text();
     console.log(id);
 
-    if (id){
+    if (id) {
       // SAVE EDITED NOTE
+      updateNote(note, id);
       console.log("modifying an old note");
-    } else{
+    } else {
       //  NEW NOTE!
-      console.log("saving a new note");
+      console.log("saving a new note:");
       addNote(note);
     }
   });
 
-  $("#exampleModal").on("hidden.bs.modal", function () {
-      // put your default event here
+  $('.note-modal').on('hidden.bs.modal', function (event) {
+      event.preventDefault();
       console.log("close");
       clearModal();
   });
+
+  $('.notes-display').on('click', 'button', (event) => {
+    event.preventDefault();
+    const thisNoteId = $(event.currentTarget).parents('.note-display').attr('data-id');
+    let thisNote = state.notes.find(note => note.id === thisNoteId);
+    $('#exampleModal').modal('show');
+    $('#modal-text').text(thisNote.content);
+    $('#modal-title').text(thisNote.title);
+    $('#modal-id').text(thisNote.id);
+    // TODO CLEAR FORM WHEN IT IS CLOSED
+	$('#exampleModal').on('hidden.bs.modal', function(event) {
+  		event.preventDefault();
+  		clearModal();
+  		console.log("modal closed and content cleared");
+	});
+  });
+});
 
 function clearModal(){
   $('#modal-text').text("");
   $('#modal-title').text("");
   $('#modal-id').text("");
 }
-
-  $('.notes-display').on('click', 'button', (event) => {
-    event.preventDefault();
-    const thisNoteId = $(event.currentTarget).parents('.note-display').attr('data-id');
-    let thisNote = state.notes.find(note => note.id === thisNoteId)
-    $('#exampleModal').modal('show');
-    $('#modal-text').text(thisNote.content);
-    $('#modal-title').text(thisNote.title);
-    $('#modal-id').text(thisNote.id);
-    // TODO CLEAR FORM WHEN IT IS CLOSED
-	$('.modal').on('hidden.bs.modal', function() {
-  		clearModal();
-  		console.log("modal closed and content cleared");
-	});
-  });
-
-});
 
 function displayNotes() {
   $.ajax({
@@ -103,4 +104,20 @@ function addNote(note) {
     dataType: 'json',
     contentType: 'application/json'
   });
+}
+
+function updateNote(note, id) {
+  console.log("updateNote: ");
+  console.log(note);
+  console.log("note ID: " + id);
+	$.ajax({
+		method: 'PUT',
+		url: '/api/notes/' + id,
+		data: JSON.stringify(note),
+		success: (data) => {
+			displayNotes();
+		},
+		dataType: 'json',
+		contentType: 'application/json'
+	});
 }

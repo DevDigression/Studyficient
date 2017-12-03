@@ -39,14 +39,8 @@ body {
 }
 
 .notes-display {
-<<<<<<< HEAD
-	min-height: 400px;
-  overflow: auto;
-	border: 2px solid black;
-=======
 	/*height: 400px;*/
 	/*border: 2px solid black;*/
->>>>>>> 5f4211dea2eee6aae6d9ae17420674d83cc2cc01
 }
 
 .videos-display {
