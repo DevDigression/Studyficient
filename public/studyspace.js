@@ -56,6 +56,10 @@ function clearModal(){
     $('#modal-title').text(thisNote.title);
     $('#modal-id').text(thisNote.id);
     // TODO CLEAR FORM WHEN IT IS CLOSED
+	$('.modal').on('hidden.bs.modal', function() {
+  		clearModal();
+  		console.log("modal closed and content cleared");
+	});
   });
 
 });
