@@ -35,17 +35,19 @@ console.log("displayModal: " + noteTitle);
 		method: 'GET',
 		url: '/api/notes/' + noteTitle,
 		success: (note) => {
+			console.log("note: ");
+			console.log(note);
 					return `<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModal">${note.title}</h5>
+						        <h5 class="modal-title" id="exampleModal">notTitle</h5>
 						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						          <span aria-hidden="true">&times;</span>
 						        </button>
 						      </div>
 						      <div class="modal-body">
-						      	${note.content}
+						      	noteTitle
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -76,7 +78,8 @@ console.log("displayNotes");
 }
 
 function renderNotes(note) {
-	return `<div data-title="${note.title}">
+	return `<div class="md-col-3" data-title="${note.title}">
+			<h4>${note.title}</h4>
 			<button type="button" class="note-button btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   			${note.title}
 			</button>
