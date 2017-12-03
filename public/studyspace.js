@@ -44,11 +44,11 @@ $(() => {
 
   $('.notes-display').on('click', 'button', (event) => {
     event.preventDefault();
-    const thisNoteId = $(event.currentTarget).parents('.note-display').attr('data-id');
+    const thisNoteId = $(event.currentTarget).parent().attr('data-id');
     let thisNote = state.notes.find(note => note.id === thisNoteId);
     $('#exampleModal').modal('show');
     $('#modal-text').text(thisNote.content);
-    $('#modal-title').text(thisNote.title);
+    $('#modal-title').val(thisNote.title);
     $('#modal-id').text(thisNote.id);
     // TODO CLEAR FORM WHEN IT IS CLOSED
 	$('#exampleModal').on('hidden.bs.modal', function(event) {
