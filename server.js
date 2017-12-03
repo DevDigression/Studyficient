@@ -51,18 +51,18 @@ app.use('/api/notes/:title', notesRouter);
 //   });
 // });
 
-app.get('/api/notes/:title', (req, res) => {
-  Note
-  .findOne({title: req.params.title})
-  .then(note => {
-    res.json(note.apiRepresentation())
-  })
-  .catch(
-    err => {
-      console.log(err);
-      res.status(500).json({message: 'Error in request'});
-    });
-});
+// app.get('/api/notes/:title', (req, res) => {
+//   Note
+//   .findOne({title: req.params.title})
+//   .then(note => {
+//     res.json(note.apiRepresentation())
+//   })
+//   .catch(
+//     err => {
+//       console.log(err);
+//       res.status(500).json({message: 'Error in request'});
+//     });
+// });
 
 app.get('/', (req, res) => {
   Note
