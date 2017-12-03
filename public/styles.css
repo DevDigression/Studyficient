@@ -3,7 +3,7 @@
 /**********************  Landing Page  ********************************/
 
 h1 {
-  padding-top: 10%;
+  padding-top: 8%;
 }
 
 h3 {
@@ -64,11 +64,13 @@ p {
   list-style: none;
   text-align: center;
   font-size: 36px;
-  padding: 0;
+  padding: 20px;
 }
 
 .home-block img {
-  height: 100%
+  height: 400px;
+  padding: 20px;
+  width: 100%;
 }
 
 #start-btn {
@@ -87,61 +89,20 @@ p {
 }
 
 
-/**********************  Login  ********************************/
-
-#login-page {
-  width: 60%;
-  margin: 5% auto;
-}
-
-#login-header {
-  text-align: center;
-}
-
-#login-page input {
-  width: 50%;
-  display: block;
-  margin: 20px auto;
-  text-align: center;
-}
-
-#login-page p {
-  font-size: 16px;
-  text-align: center;
-}
-
-#login-form {
-  width: 60%;
-  margin: 10% auto;
-  border: 1px solid black;
-}
-
-#login-btn {
-  width: 100px;
-  height: 30px;
-  display: block;
-  margin: 20px auto;
-}
-
 
 
 /**********************  Media Queries ********************************/
 
 @media screen and (max-width: 768px) {
-img {
-  width: 100%;
-  margin: 0 auto;
+.home-block ul {
+  font-size: 24px;
+  padding: 0;
 }
 
-#login-page {
+.home-block img {
+  height: auto;
+  padding: 0;
   width: 100%;
-  margin-top: 100px;
-  padding: 20px;
-}
-
-#login-form {
-  width: 100%;
-  padding: 20px;
 }
 
 }

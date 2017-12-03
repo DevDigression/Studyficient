@@ -39,14 +39,9 @@ body {
 }
 
 .notes-display {
-	/*height: 400px;*/
-	/*border: 2px solid black;*/
 }
 
 .videos-display {
-  min-height: 400px;
-  overflow: auto;
-  border: 2px solid black;
 }
 
 .row-offcanvas {

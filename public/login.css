@@ -1,0 +1,85 @@
+/**********************  Login  ********************************/
+
+body {
+  background: url(https://static.pexels.com/photos/207691/pexels-photo-207691.jpeg);
+  background-size: cover;
+  background-position: center;
+}
+
+h1 {
+  padding-top: 8%;
+}
+
+h3 {
+  text-align: center;
+}
+
+p {
+  font-size: 36px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+#login-page {
+  width: 60%;
+  margin: 5% auto;
+}
+
+#login-header {
+  text-align: center;
+  color: #D4DE00;
+  text-shadow: 1px 1px 2px black;
+}
+
+#login-page input {
+  width: 50%;
+  display: block;
+  margin: 20px auto;
+  text-align: center;
+}
+
+#login-page p {
+  font-size: 16px;
+  text-align: center;
+}
+
+#login-form {
+  width: 60%;
+  margin: 10% auto;
+  background: url(../img/LoginChalkboard.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  color: #FFF;
+  padding: 50px;
+}
+
+#login-btn {
+  width: 100px;
+  height: 30px;
+  display: block;
+  margin: 20px auto;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+#login-page {
+  width: 100%;
+  margin-top: 100px;
+  padding: 20px;
+}
+
+#login-form {
+  width: 100%;
+  padding: 20px;
+}
+
+}
