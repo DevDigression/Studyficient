@@ -119,20 +119,12 @@ app.put('/:id', jsonParser, (req, res) => {
     .catch(err => res.status(500).json({message: 'Error in request'}));
 });
 
-// app.delete('/posts/:id', (req, res) => {
-//   Post
-//     .findByIdAndRemove(req.params.id)
-//     .then(post => res.status(204).end())
-//     .catch(err => res.status(500).json({message: 'Error in request'}));
-// });
-
-
-
-
-
-
-
-
+app.delete('/:id', (req, res) => {
+  Note
+    .findByIdAndRemove(req.params.id)
+    .then(post => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Error in request'}));
+});
 
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'Not Found' });

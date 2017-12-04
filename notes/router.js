@@ -8,7 +8,6 @@ const router = express.Router();
 
 
 router.get('/', (req, res) => {
-	// res.json({note:"hello"});
   Note
     .find()
     .then(notes => {
@@ -74,5 +73,15 @@ router.put('/:id', jsonParser, (req, res) => {
     .catch(err => res.status(500).json({message: 'Error in request'}));
 });
 
+router.delete('/:id', (req, res) => {
+  Note
+    .findByIdAndRemove(req.params.id)
+    .then(post => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Error in request'}));
+});
+
+router.use('*', (req, res) => {
+  return res.status(404).json({ message: 'Not Found' });
+});
 
 module.exports = {router};

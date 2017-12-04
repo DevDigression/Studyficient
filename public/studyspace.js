@@ -34,6 +34,7 @@ $(() => {
       console.log("saving a new note:");
       addNote(note);
     }
+    $('#exampleModal').modal('hide');
   });
 
   $('.note-modal').on('hidden.bs.modal', function (event) {
@@ -47,21 +48,21 @@ $(() => {
     const thisNoteId = $(event.currentTarget).parent().attr('data-id');
     let thisNote = state.notes.find(note => note.id === thisNoteId);
     $('#exampleModal').modal('show');
-    $('#modal-text').text(thisNote.content);
+    $('#modal-text').val(thisNote.content);
     $('#modal-title').val(thisNote.title);
     $('#modal-id').text(thisNote.id);
     // TODO CLEAR FORM WHEN IT IS CLOSED
-	$('#exampleModal').on('hidden.bs.modal', function(event) {
+  });
+  	$('#exampleModal').on('hidden.bs.modal', function(event) {
   		event.preventDefault();
   		clearModal();
   		console.log("modal closed and content cleared");
 	});
-  });
 });
 
 function clearModal(){
-  $('#modal-text').text("");
-  $('#modal-title').text("");
+  $('#modal-text').val("");
+  $('#modal-title').val("");
   $('#modal-id').text("");
 }
 
@@ -70,7 +71,7 @@ function displayNotes() {
     method: 'GET',
     url: '/api/notes',
     success: (data) => {
-      state.notes=data.notes;
+      state.notes = data.notes;
       const notesList = data.notes.map((item, index) => renderNotes(item));
       $('.notes-display').html(notesList);
     },
@@ -86,6 +87,7 @@ function renderNotes(note) {
   <h3>${note.title}</h3>
   <p>${note.content}</p>
   <button class="edit-button btn btn-primary">Edit</button>
+  <button class="delete-button btn btn-primary">Delete</button>
   </div>
   </div>
   `
