@@ -43,7 +43,7 @@ $(() => {
       clearModal();
   });
 
-  $('.notes-display').on('click', 'button', (event) => {
+  $('.notes-display').on('click', '.edit-button', (event) => {
     event.preventDefault();
     const thisNoteId = $(event.currentTarget).parent().attr('data-id');
     let thisNote = state.notes.find(note => note.id === thisNoteId);
@@ -51,7 +51,11 @@ $(() => {
     $('#modal-text').val(thisNote.content);
     $('#modal-title').val(thisNote.title);
     $('#modal-id').text(thisNote.id);
-    // TODO CLEAR FORM WHEN IT IS CLOSED
+  });
+    $('.notes-display').on('click', '.delete-button', (event) => {
+    event.preventDefault();
+    const thisNoteId = $(event.currentTarget).parent().attr('data-id');
+    deleteNote(thisNoteId);
   });
   	$('#exampleModal').on('hidden.bs.modal', function(event) {
   		event.preventDefault();
@@ -116,6 +120,18 @@ function updateNote(note, id) {
 		method: 'PUT',
 		url: '/api/notes/' + id,
 		data: JSON.stringify(note),
+		success: (data) => {
+			displayNotes();
+		},
+		dataType: 'json',
+		contentType: 'application/json'
+	});
+}
+
+function deleteNote(id) {
+	$.ajax({
+		method: 'DELETE',
+		url: '/api/notes/' + id,
 		success: (data) => {
 			displayNotes();
 		},
