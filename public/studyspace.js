@@ -14,7 +14,6 @@ $(() => {
 /******************************** NOTES ********************************/
 
   displayNotes();
-  displayVideos();
 
   $('.new-note-button').click(() => {
     $('#exampleModal').modal('show')
@@ -29,9 +28,7 @@ $(() => {
 
     if (id) {
       updateNote(note, id);
-      console.log("modifying an old note");
     } else {
-      console.log("saving a new note:");
       addNote(note);
     }
     $('#exampleModal').modal('hide');
@@ -39,8 +36,7 @@ $(() => {
 
   $('.note-modal').on('hidden.bs.modal', function (event) {
       event.preventDefault();
-      console.log("close");
-      clearModal();
+      clearNoteModal();
   });
 
   $('.notes-display').on('click', '.edit-button', (event) => {
@@ -59,23 +55,77 @@ $(() => {
   });
   	$('#exampleModal').on('hidden.bs.modal', function(event) {
   		event.preventDefault();
-  		clearModal();
-  		console.log("modal closed and content cleared");
+  		clearNoteModal();
 	});
+
+/******************************** VIDEOS ********************************/
+  
+  displayVideos();
+
+  $('.new-video-button').click(() => {
+    $('#video-modal').modal('show')
+  });
+  $('#video-save').click((event) => {
+    event.preventDefault();
+    var video = {};
+    video.subject = $('#video-title').val();
+    video.link = $('#video-text').val();
+    let id = $('#video-id').text();
+
+    if (id) {
+      updateVideo(video, id);
+    } else {
+      addVideo(video);
+    }
+    $('#video-modal').modal('hide');
+  });
+
+  $('.video-modal').on('hidden.bs.modal', function (event) {
+      event.preventDefault();
+      clearVideoModal();
+  });
+
+  $('.videos-display').on('click', '.edit-button', (event) => {
+    event.preventDefault();
+    const thisVideoId = $(event.currentTarget).parent().attr('data-id');
+    let thisVideo = state.videos.find(video => video.id === thisVideoId);
+    $('#video-modal').modal('show');
+    $('#video-text').val(thisVideo.link);
+    $('#video-title').val(thisVideo.subject);
+    $('#video-id').text(thisVideo.id);
+  });
+  $('.videos-display').on('click', '.delete-button', (event) => {
+    event.preventDefault();
+    const thisVideoId = $(event.currentTarget).parent().attr('data-id');
+    deleteVideo(thisVideoId);
+  });
+  $('#video-modal').on('hidden.bs.modal', function(event) {
+  		event.preventDefault();
+  		clearVideoModal();
+	});
+
+/*************** END DOC READY *******************/
 });
 
-function clearModal(){
+function clearNoteModal(){
   $('#modal-text').val("");
   $('#modal-title').val("");
   $('#modal-id').text("");
 }
+
+function clearVideoModal(){
+  $('#video-text').val("");
+  $('#video-title').val("");
+  $('#video-id').text("");
+}
+
+/******************************** NOTES ********************************/
 
 function displayNotes() {
   $.ajax({
     method: 'GET',
     url: '/api/notes',
     success: (data) => {
-    	console.log("Notes data: " + data.notes);
       state.notes = data.notes;
       const notesList = data.notes.map((item, index) => renderNotes(item));
       $('.notes-display').html(notesList);
@@ -144,12 +194,12 @@ function deleteNote(id) {
 
 /******************************** VIDEOS ********************************/
 
+
 function displayVideos() {
   $.ajax({
     method: 'GET',
     url: '/api/videos',
     success: (data) => {
-    	console.log("Videos data: " + data.videos);
       state.videos = data.videos;
       const videosList = data.videos.map((item, index) => renderVideos(item));
       $('.videos-display').html(videosList);
@@ -163,11 +213,53 @@ function renderVideos(video) {
   return `
   <div class="col-md-3">
   <div class="video-display" data-id=${video.id}>
-  <h3>${video.title}</h3>
-  <p>${video.description}</p>
+  <iframe width="100%" src="https://www.youtube.com/embed/${video.link}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
   <button class="edit-button btn btn-primary">Edit</button>
   <button class="delete-button btn btn-primary">Delete</button>
   </div>
   </div>
   `
+}
+
+function addVideo(video) {
+  console.log("addVideo: ");
+  console.log(video);
+  $.ajax({
+    method: 'POST',
+    url: '/api/videos',
+    data: JSON.stringify(video),
+    success: (data) => {
+      displayVideos();
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
+}
+
+function updateVideo(video, id) {
+  console.log("updateVideo: ");
+  console.log(video);
+  console.log("video ID: " + id);
+	$.ajax({
+		method: 'PUT',
+		url: '/api/videos/' + id,
+		data: JSON.stringify(video),
+		success: (data) => {
+			displayVideos();
+		},
+		dataType: 'json',
+		contentType: 'application/json'
+	});
+}
+
+function deleteVideo(id) {
+	$.ajax({
+		method: 'DELETE',
+		url: '/api/videos/' + id,
+		success: (data) => {
+			displayVideos();
+		},
+		dataType: 'json',
+		contentType: 'application/json'
+	});
 }

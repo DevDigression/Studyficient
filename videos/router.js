@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', jsonParser, (req, res) => {
-	const requiredParams = ['subject', 'title', 'link', 'description'];
+	const requiredParams = ['subject', 'link'];
 
 
 	for (let i = 0; i < requiredParams.length; i++) {
@@ -39,9 +39,7 @@ router.post('/', jsonParser, (req, res) => {
   Video
     .create({
       subject: req.body.subject,
-      title: req.body.title,
-      link: req.body.link,
-      description: req.body.description
+      link: req.body.link
     })
     .then(Video => res.status(201).json(Video.videoApiRepresentation()))
     .catch(err => {
@@ -60,7 +58,7 @@ router.put('/:id', jsonParser, (req, res) => {
   // }
 
   const videoUpdate = {};
-  const updateableParams = ['subject', 'title', 'link', 'description'];
+  const updateableParams = ['subject', 'link'];
 
   updateableParams.forEach(param => {
     if (param in req.body) {
