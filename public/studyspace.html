@@ -76,22 +76,22 @@
 
 
 <form class="new-note-form">
-<div class="modal fade note-modal" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade note-modal" id="note-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <input class="modal-title" id="modal-title" type="text" name="" value="">
+        <input class="modal-title" id="note-title" type="text" name="" value="">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-			<span id="modal-id"></span>
+			<span id="note-id"></span>
         </button>
       </div>
       <div class="modal-body">
-      	<textarea rows="6" cols="75" name="note" id="modal-text" form="note-form"></textarea>
+      	<textarea rows="6" cols="75" name="note" id="note-text" form="note-form"></textarea>
       </div>
       <div class="modal-footer">
         <button id="modal-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="modal-save" class="btn btn-primary">Submit</button>
+        <button id="note-save" class="btn btn-primary">Submit</button>
       </div>
     </div>
   </div>

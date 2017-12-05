@@ -16,22 +16,22 @@ $(() => {
   displayNotes();
 
   $('.new-note-button').click(() => {
-    $('#exampleModal').modal('show')
+    $('#note-modal').modal('show')
   });
-  $('#modal-save').click((event) => {
+  $('#note-save').click((event) => {
     event.preventDefault();
     var note = {};
     note.subject = "Subject"; // For now
-    note.title = $('#modal-title').val();
-    note.content = $('#modal-text').val();
-    let id = $('#modal-id').text();
+    note.title = $('#note-title').val();
+    note.content = $('#note-text').val();
+    let id = $('#note-id').text();
 
     if (id) {
       updateNote(note, id);
     } else {
       addNote(note);
     }
-    $('#exampleModal').modal('hide');
+    $('#note-modal').modal('hide');
   });
 
   $('.note-modal').on('hidden.bs.modal', function (event) {
@@ -43,17 +43,17 @@ $(() => {
     event.preventDefault();
     const thisNoteId = $(event.currentTarget).parent().attr('data-id');
     let thisNote = state.notes.find(note => note.id === thisNoteId);
-    $('#exampleModal').modal('show');
-    $('#modal-text').val(thisNote.content);
-    $('#modal-title').val(thisNote.title);
-    $('#modal-id').text(thisNote.id);
+    $('#note-modal').modal('show');
+    $('#note-text').val(thisNote.content);
+    $('#note-title').val(thisNote.title);
+    $('#note-id').text(thisNote.id);
   });
     $('.notes-display').on('click', '.delete-button', (event) => {
     event.preventDefault();
     const thisNoteId = $(event.currentTarget).parent().attr('data-id');
     deleteNote(thisNoteId);
   });
-  	$('#exampleModal').on('hidden.bs.modal', function(event) {
+  	$('#note-modal').on('hidden.bs.modal', function(event) {
   		event.preventDefault();
   		clearNoteModal();
 	});
@@ -104,22 +104,17 @@ $(() => {
   		clearVideoModal();
 	});
 
-/*************** END DOC READY *******************/
+/**** END DOC READY ****/
 });
 
-function clearNoteModal(){
-  $('#modal-text').val("");
-  $('#modal-title').val("");
-  $('#modal-id').text("");
-}
-
-function clearVideoModal(){
-  $('#video-text').val("");
-  $('#video-title').val("");
-  $('#video-id').text("");
-}
 
 /******************************** NOTES ********************************/
+
+function clearNoteModal() {
+  $('#note-text').val("");
+  $('#note-title').val("");
+  $('#note-id').text("");
+}
 
 function displayNotes() {
   $.ajax({
@@ -194,6 +189,11 @@ function deleteNote(id) {
 
 /******************************** VIDEOS ********************************/
 
+function clearVideoModal() {
+  $('#video-text').val("");
+  $('#video-title').val("");
+  $('#video-id').text("");
+}
 
 function displayVideos() {
   $.ajax({
