@@ -1,6 +1,9 @@
 const NOTES_PATH = '/api/notes';
+const VIDEOS_PATH = '/api/videos';
+
 let state = {
-  notes:[]
+  notes: [],
+  videos: []
 }
 
 $(() => {
@@ -8,7 +11,10 @@ $(() => {
     $('.row-offcanvas').toggleClass('active');
   });
 
+/******************************** NOTES ********************************/
+
   displayNotes();
+  displayVideos();
 
   $('.new-note-button').click(() => {
     $('#exampleModal').modal('show')
@@ -19,18 +25,12 @@ $(() => {
     note.subject = "Subject"; // For now
     note.title = $('#modal-title').val();
     note.content = $('#modal-text').val();
-    console.log("note to update: " + note);
-    // TODO: THIS SAME FORM SAVES NEW NOTES AND EDITS OLD ONES.
-    // CHECK FOR ID ON THE FORM TO KNOW
     let id = $('#modal-id').text();
-    console.log(id);
 
     if (id) {
-      // SAVE EDITED NOTE
       updateNote(note, id);
       console.log("modifying an old note");
     } else {
-      //  NEW NOTE!
       console.log("saving a new note:");
       addNote(note);
     }
@@ -75,6 +75,7 @@ function displayNotes() {
     method: 'GET',
     url: '/api/notes',
     success: (data) => {
+    	console.log("Notes data: " + data.notes);
       state.notes = data.notes;
       const notesList = data.notes.map((item, index) => renderNotes(item));
       $('.notes-display').html(notesList);
@@ -138,4 +139,35 @@ function deleteNote(id) {
 		dataType: 'json',
 		contentType: 'application/json'
 	});
+}
+
+
+/******************************** VIDEOS ********************************/
+
+function displayVideos() {
+  $.ajax({
+    method: 'GET',
+    url: '/api/videos',
+    success: (data) => {
+    	console.log("Videos data: " + data.videos);
+      state.videos = data.videos;
+      const videosList = data.videos.map((item, index) => renderVideos(item));
+      $('.videos-display').html(videosList);
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
+}
+
+function renderVideos(video) {
+  return `
+  <div class="col-md-3">
+  <div class="video-display" data-id=${video.id}>
+  <h3>${video.title}</h3>
+  <p>${video.description}</p>
+  <button class="edit-button btn btn-primary">Edit</button>
+  <button class="delete-button btn btn-primary">Delete</button>
+  </div>
+  </div>
+  `
 }

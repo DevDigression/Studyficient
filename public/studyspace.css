@@ -38,6 +38,13 @@ body {
   border: 2px solid black;
 }
 
+.video-display {
+  width: 100%;
+  /*margin: 0 auto;*/
+  min-height: 200px;
+  border: 2px solid black;
+}
+
 .notes-display {
 }
 

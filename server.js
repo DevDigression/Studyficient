@@ -13,11 +13,15 @@ const jsonParser = bodyParser.json();
 const app = express();
 
 const {Note} = require('./notes/models');
+const {Video} = require('./videos/models');
+const {Subject} = require('./subjects/models');
 
 mongoose.Promise = global.Promise;
 
 // const { router: usersRouter } = require('./users');
+const { router: subjectsRouter } = require('./subjects');
 const { router: notesRouter } = require('./notes');
+const { router: videosRouter } = require('./videos');
 
 // const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
@@ -42,9 +46,9 @@ app.use(function (req, res, next) {
 
 // app.use('/api/users/', usersRouter);
 // app.use('/api/auth/', authRouter);
+app.use('/api/subjects/', subjectsRouter);
 app.use('/api/notes/', notesRouter);
-app.use('/api/notes/:title', notesRouter);
-
+app.use('/api/videos/', videosRouter);
 // const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // A protected endpoint which needs a valid JWT to access it
@@ -53,82 +57,6 @@ app.use('/api/notes/:title', notesRouter);
 //     data: 'rosebud'
 //   });
 // });
-
-app.get('/', (req, res) => {
-  Note
-    .find()
-    .then(notes => {
-      res.json({
-          notes: notes.map(
-          (note) => note.apiRepresentation())
-        });
-    })
-    .catch(
-      err => {
-        console.error(err);
-        res.status(500).json({message: 'Error in request'});
-    });
-});
-
-app.post('/api/notes', (req, res) => {
-  const requiredParams = ['title', 'content', 'author'];
-  for (let i = 0; i < requiredParams.length; i++) {
-    const param = requiredParams[i];
-    if (!(param in req.body)) {
-      const message = `Must include \`${param}\` in request body`
-      console.error(message);
-      return res.status(400).send(message);
-    }
-  }
-
-  Note
-    .create({
-      subject: req.body.subject,
-      title: req.body.title,
-      content: req.body.content
-    })
-    .then(Note => res.status(201).json(Note.apiRepresentation()))
-    .catch(err => {
-        console.error(err);
-        res.status(500).json({error: 'Error in request'});
-    });
-});
-
-
-app.put('/:id', jsonParser, (req, res) => {
-  // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
-  //   const message = (
-  //     `Request path id (${req.params.id}) and request body id ` +
-  //     `(${req.body.id}) must match`);
-  //   console.error(message);
-  //   return res.status(400).json({message: message});
-  // }
-
-  const noteUpdate = {};
-  const updateableParams = ['subject', 'title', 'content'];
-
-  updateableParams.forEach(param => {
-    if (param in req.body) {
-      noteUpdate[param] = req.body[param];
-    }
-  });
-
-  Note
-    .findByIdAndUpdate(req.params.id, {$set: noteUpdate})
-    .then(note => res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Error in request'}));
-});
-
-app.delete('/:id', (req, res) => {
-  Note
-    .findByIdAndRemove(req.params.id)
-    .then(post => res.status(204).end())
-    .catch(err => res.status(500).json({message: 'Error in request'}));
-});
-
-app.use('*', (req, res) => {
-  return res.status(404).json({ message: 'Not Found' });
-});
 
 let server;
 
