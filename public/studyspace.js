@@ -11,9 +11,24 @@ $(() => {
     $('.row-offcanvas').toggleClass('active');
   });
 
-/******************************** NOTES ********************************/
+  /******************************** NOTES ********************************/
 
-  displayNotes();
+
+  $('add-subject').click(function() {
+    // TODO #1: POST request to /subjects to create a note. JUst with name
+  });
+
+  $('.sidebar-subject').click(function() {
+    // TODO #3: get the data-id of the subject that was clicked.
+    // save the id in state.subjectId
+    //  displayNotes();
+  });
+
+
+   displaySubjects();
+
+
+
 
   $('.new-note-button').click(() => {
     $('#note-modal').modal('show')
@@ -29,6 +44,8 @@ $(() => {
     if (id) {
       updateNote(note, id);
     } else {
+      // TODO #7 make sure notes are created with a subjectID.
+      note.subjectId = this.state.subjectId
       addNote(note);
     }
     $('#note-modal').modal('hide');
@@ -59,7 +76,7 @@ $(() => {
 	});
 
 /******************************** VIDEOS ********************************/
-  
+
   displayVideos();
 
   $('.new-video-button').click(() => {
@@ -117,13 +134,34 @@ function clearNoteModal() {
 }
 
 function displayNotes() {
+  let subjectId = state.subjectId
+ // TODO #4: check this out. We now get notes belonging to a specific subject,
+ // by getting that subject
+ // GO to the subject routes now. Do all the api routes for subjects
+
+ // TODO #5 when doing /api/subject/${subjectId} on the server
+ // make sure you do Subject.findByID(subjectId).pupulate('notes').then...
+ // adding ppopulate loads all the notes from db that belong to a subject
   $.ajax({
     method: 'GET',
-    url: '/api/notes',
-    success: (data) => {
-      state.notes = data.notes;
+    url: `/api/subject/${subjectId}`,
+    success: (subject) => {
+      state.notes = subject.notes;
       const notesList = data.notes.map((item, index) => renderNotes(item));
       $('.notes-display').html(notesList);
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
+}
+function displaySubjects(){
+  $.ajax({
+    method: 'GET',
+    url: '/api/subjects',
+    success: (data) => {
+        // TODO #2: Show all subjects on sidebar
+        // on each subject show the LIs with a data-id attribute;
+        // <li class="sidebar-subject" data-id=${subjectId}>${subjectName}</li>
     },
     dataType: 'json',
     contentType: 'application/json'
