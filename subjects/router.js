@@ -2,18 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const {Note} = require('./models');
+const {Subject} = require('./models');
 
 const router = express.Router();
 
 
 router.get('/', (req, res) => {
-  Note
+  Subject
     .find()
-    .then(notes => {
+    .then(subjects => {
       res.json({
-          notes: notes.map(
-          (note) => note.apiRepresentation())
+          subjects: subjects.map(
+          (subject) => subject.subjectApiRepresentation())
         });
     })
     .catch(
@@ -24,25 +24,23 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', jsonParser, (req, res) => {
-	const requiredParams = ['subject', 'title', 'content'];
+  const requiredParams = ['name'];
 
 
-	for (let i = 0; i < requiredParams.length; i++) {
-		const param = requiredParams[i];
-		if (!(param in req.body)) {
-			const errorMessage = `Missing ${param} in request body`;
-			console.error(errorMessage);
-			return res.status(400).send(errorMessage);
-		}
-	}
+  for (let i = 0; i < requiredParams.length; i++) {
+    const param = requiredParams[i];
+    if (!(param in req.body)) {
+      const errorMessage = `Missing ${param} in request body`;
+      console.error(errorMessage);
+      return res.status(400).send(errorMessage);
+    }
+  }
 
-  Note
+  Subject
     .create({
-      subject: req.body.subject,
-      title: req.body.title,
-      content: req.body.content
+      name: req.body.name
     })
-    .then(Note => res.status(201).json(Note.apiRepresentation()))
+    .then(Subject => res.status(201).json(Subject.subjectApiRepresentation()))
     .catch(err => {
         console.error(err);
         res.status(500).json({error: 'Error in request'});
@@ -58,23 +56,23 @@ router.put('/:id', jsonParser, (req, res) => {
   //   return res.status(400).json({message: message});
   // }
 
-  const noteUpdate = {};
-  const updateableParams = ['subject', 'title', 'content'];
+  const subjectUpdate = {};
+  const updateableParams = ['name'];
 
   updateableParams.forEach(param => {
     if (param in req.body) {
-      noteUpdate[param] = req.body[param];
+      subjectUpdate[param] = req.body[param];
     }
   });
 
-  Note
-    .findByIdAndUpdate(req.params.id, {$set: noteUpdate})
-    .then(note => res.status(204).end())
+  Subject
+    .findByIdAndUpdate(req.params.id, {$set: subjectUpdate})
+    .then(subject => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Error in request'}));
 });
 
 router.delete('/:id', (req, res) => {
-  Note
+  Subject
     .findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Error in request'}));

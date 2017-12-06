@@ -1,9 +1,12 @@
 const NOTES_PATH = '/api/notes';
 const VIDEOS_PATH = '/api/videos';
+const SUBJECTS_PATH = '/api/subjects';
 
 let state = {
-  notes: [],
-  videos: []
+	subjectId: [],
+	subjects: [],
+	notes: [],
+	videos: []
 }
 
 $(() => {
@@ -14,21 +17,30 @@ $(() => {
   /******************************** NOTES ********************************/
 
 
-  $('add-subject').click(function() {
+  $('#add-subject').click(function() {
     // TODO #1: POST request to /subjects to create a note. JUst with name
-  });
+    $('#new-subject-form').removeClass('no-display');
+});
+  $('#new-subject-form').submit(function(event) {
+  	event.preventDefault();
+  	let newSubject = $('#subject-input').val();
+  	console.log("New Subject: " + newSubject);
+  	addSubject(newSubject);
+    $('#subject-input').val("");
+    $('#new-subject-form').addClass('no-display');
+});
 
-  $('.sidebar-subject').click(function() {
+  $('.subjects-display').on('click', '.sidebar-subject', function(event) {
     // TODO #3: get the data-id of the subject that was clicked.
     // save the id in state.subjectId
-    //  displayNotes();
+    console.log($(event.currentTarget).attr('data-id'));
+    state.subjectId = $(event.currentTarget).attr('data-id');
+
+    displayNotes();
   });
 
 
    displaySubjects();
-
-
-
 
   $('.new-note-button').click(() => {
     $('#note-modal').modal('show')
@@ -36,7 +48,7 @@ $(() => {
   $('#note-save').click((event) => {
     event.preventDefault();
     var note = {};
-    note.subject = "Subject"; // For now
+    note.subjectId = "Subject"; // For now
     note.title = $('#note-title').val();
     note.content = $('#note-text').val();
     let id = $('#note-id').text();
@@ -45,7 +57,7 @@ $(() => {
       updateNote(note, id);
     } else {
       // TODO #7 make sure notes are created with a subjectID.
-      note.subjectId = this.state.subjectId
+      note.subjectId = this.state.subjectId;
       addNote(note);
     }
     $('#note-modal').modal('hide');
@@ -142,9 +154,10 @@ function displayNotes() {
  // TODO #5 when doing /api/subject/${subjectId} on the server
  // make sure you do Subject.findByID(subjectId).pupulate('notes').then...
  // adding ppopulate loads all the notes from db that belong to a subject
+
   $.ajax({
     method: 'GET',
-    url: `/api/subject/${subjectId}`,
+    url: `/api/subjects/${subjectId}`,
     success: (subject) => {
       state.notes = subject.notes;
       const notesList = data.notes.map((item, index) => renderNotes(item));
@@ -154,14 +167,42 @@ function displayNotes() {
     contentType: 'application/json'
   });
 }
+
 function displaySubjects(){
   $.ajax({
     method: 'GET',
     url: '/api/subjects',
     success: (data) => {
+    	console.log(data);
         // TODO #2: Show all subjects on sidebar
         // on each subject show the LIs with a data-id attribute;
         // <li class="sidebar-subject" data-id=${subjectId}>${subjectName}</li>
+      state.subjects = data.subjects;
+      const subjectsList = data.subjects.map((item, index) => renderSubjects(item));
+      $('.subjects-display').html(subjectsList);
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
+}
+
+function renderSubjects(subject) {
+  return `
+  <li class="sidebar-subject" data-id=${subject.id}>${subject.name}</li>
+  `
+}
+
+function addSubject(subject) {
+  console.log("addSubject: ");
+  console.log(subject);
+  $.ajax({
+    method: 'POST',
+    url: '/api/subjects/',
+    data: JSON.stringify(subject),
+    success: (data) => {
+    	console.log("addSubject data: ");
+    	console.log(data);
+      displaySubjects();
     },
     dataType: 'json',
     contentType: 'application/json'
@@ -258,6 +299,16 @@ function renderVideos(video) {
   </div>
   `
 }
+
+// function parseVideoLink (link) {
+// var video_id = window.location.search.split('v=')[1];
+// var ampersandPosition = video_id.indexOf('&');
+// if(ampersandPosition != -1) {
+//   video_id = video_id.substring(0, ampersandPosition);
+// }
+// console.log(video_id);
+// return video_id;
+// }
 
 function addVideo(video) {
   console.log("addVideo: ");

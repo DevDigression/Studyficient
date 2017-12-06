@@ -9,6 +9,10 @@ body {
   padding-top: 50px;
 }
 
+.no-display {
+  display: none;
+}
+
 .navbar ul {
   float: right;
 }
