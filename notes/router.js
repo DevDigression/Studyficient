@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const {Note} = require('./models');
+const {Subject} = require('../subjects/models');
 
 const router = express.Router();
 
@@ -35,14 +36,22 @@ router.post('/', jsonParser, (req, res) => {
 			return res.status(400).send(errorMessage);
 		}
 	}
-
+  let note;
   Note
     .create({
       subject: req.body.subject,
       title: req.body.title,
       content: req.body.content
     })
-    .then(Note => res.status(201).json(Note.apiRepresentation()))
+    .then(_note => {
+      note = _note;
+      return Subject.findById(note.subject);
+    })
+    .then(subject => {
+      subject.notes.push(note._id);
+      return subject.save();
+    })
+    .then(subject => res.status(201).json(note.apiRepresentation()))
     .catch(err => {
         console.error(err);
         res.status(500).json({error: 'Error in request'});

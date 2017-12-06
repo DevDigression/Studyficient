@@ -16,7 +16,8 @@ const SubjectSchema = mongoose.Schema({
 SubjectSchema.methods.subjectApiRepresentation = function() {
   return {
   	name: this.name,
-    id: this._id
+    id: this._id,
+    notes: this.notes
   };
 };
 

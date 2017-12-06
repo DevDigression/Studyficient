@@ -3,7 +3,7 @@ const VIDEOS_PATH = '/api/videos';
 const SUBJECTS_PATH = '/api/subjects';
 
 let state = {
-	subjectId: [],
+	subjectId: "",
 	subjects: [],
 	notes: [],
 	videos: []
@@ -18,7 +18,6 @@ $(() => {
 
 
   $('#add-subject').click(function() {
-    // TODO #1: POST request to /subjects to create a note. JUst with name
     $('#new-subject-form').removeClass('no-display');
 });
   $('#new-subject-form').submit(function(event) {
@@ -31,9 +30,6 @@ $(() => {
 });
 
   $('.subjects-display').on('click', '.sidebar-subject', function(event) {
-    // TODO #3: get the data-id of the subject that was clicked.
-    // save the id in state.subjectId
-    console.log($(event.currentTarget).attr('data-id'));
     state.subjectId = $(event.currentTarget).attr('data-id');
 
     displayNotes();
@@ -48,7 +44,7 @@ $(() => {
   $('#note-save').click((event) => {
     event.preventDefault();
     var note = {};
-    note.subjectId = "Subject"; // For now
+    note.subject = state.subjectId;
     note.title = $('#note-title').val();
     note.content = $('#note-text').val();
     let id = $('#note-id').text();
@@ -57,7 +53,7 @@ $(() => {
       updateNote(note, id);
     } else {
       // TODO #7 make sure notes are created with a subjectID.
-      note.subjectId = this.state.subjectId;
+      note.subjectId = state.subjectId;
       addNote(note);
     }
     $('#note-modal').modal('hide');
@@ -158,9 +154,9 @@ function displayNotes() {
   $.ajax({
     method: 'GET',
     url: `/api/subjects/${subjectId}`,
-    success: (subject) => {
-      state.notes = subject.notes;
-      const notesList = data.notes.map((item, index) => renderNotes(item));
+    success: (data) => {
+      state.notes = data.subject.notes;
+      const notesList = data.subject.notes.map((item, index) => renderNotes(item));
       $('.notes-display').html(notesList);
     },
     dataType: 'json',
@@ -173,10 +169,6 @@ function displaySubjects(){
     method: 'GET',
     url: '/api/subjects',
     success: (data) => {
-    	console.log(data);
-        // TODO #2: Show all subjects on sidebar
-        // on each subject show the LIs with a data-id attribute;
-        // <li class="sidebar-subject" data-id=${subjectId}>${subjectName}</li>
       state.subjects = data.subjects;
       const subjectsList = data.subjects.map((item, index) => renderSubjects(item));
       $('.subjects-display').html(subjectsList);
@@ -198,7 +190,9 @@ function addSubject(subject) {
   $.ajax({
     method: 'POST',
     url: '/api/subjects/',
-    data: JSON.stringify(subject),
+    data: JSON.stringify({
+    	name: subject 
+    }),
     success: (data) => {
     	console.log("addSubject data: ");
     	console.log(data);

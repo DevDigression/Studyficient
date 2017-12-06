@@ -23,6 +23,21 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+  Subject
+    .findById(req.params.id).populate('notes')
+    .then(subject => {
+      res.json({
+          subject: subject.subjectApiRepresentation()
+        });
+    })
+    .catch(
+      err => {
+        console.error(err);
+        res.status(500).json({message: 'Error in request'});
+    });
+});
+
 router.post('/', jsonParser, (req, res) => {
   const requiredParams = ['name'];
 
