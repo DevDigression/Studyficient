@@ -1,16 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const passport = require('passport');
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const {Note} = require('./models');
 const {Subject} = require('../subjects/models');
 
 const router = express.Router();
 
-
-router.get('/', (req, res) => {
+router.get('/', jwtAuth, (req, res) => {
   Note
-    .find()
+    .find({
+      user: req.user.id
+    })
     .then(notes => {
       res.json({
           notes: notes.map(
@@ -24,7 +27,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser, jwtAuth, (req, res) => {
 	const requiredParams = ['subject', 'title', 'content'];
 
 
@@ -41,7 +44,8 @@ router.post('/', jsonParser, (req, res) => {
     .create({
       subject: req.body.subject,
       title: req.body.title,
-      content: req.body.content
+      content: req.body.content,
+      user: req.user.id
     })
     .then(_note => {
       note = _note;
@@ -58,7 +62,7 @@ router.post('/', jsonParser, (req, res) => {
     });
 });
 
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
   //   const message = (
   //     `Request path id (${req.params.id}) and request body id ` +
@@ -82,7 +86,7 @@ router.put('/:id', jsonParser, (req, res) => {
     .catch(err => res.status(500).json({message: 'Error in request'}));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
   Note
     .findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())

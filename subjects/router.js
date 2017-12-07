@@ -1,15 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const passport = require('passport');
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const {Subject} = require('./models');
 
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
+router.get('/', jwtAuth, (req, res) => {
   Subject
-    .find()
+    .find({
+      user: req.user.id
+    })
     .then(subjects => {
       res.json({
           subjects: subjects.map(
@@ -23,9 +28,12 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', jwtAuth, (req, res) => {
   Subject
-    .findById(req.params.id)
+    .findOne({
+      _id: req.params.id,
+      user: req.user.id
+    })
     .populate('notes')
     .populate('videos')
     .then(subject => {
@@ -40,7 +48,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser, jwtAuth, (req, res) => {
   const requiredParams = ['name'];
 
 
@@ -55,6 +63,7 @@ router.post('/', jsonParser, (req, res) => {
 
   Subject
     .create({
+      user: req.user.id,
       name: req.body.name
     })
     .then(Subject => res.status(201).json(Subject.subjectApiRepresentation()))
@@ -64,7 +73,7 @@ router.post('/', jsonParser, (req, res) => {
     });
 });
 
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
   //   const message = (
   //     `Request path id (${req.params.id}) and request body id ` +
@@ -88,7 +97,7 @@ router.put('/:id', jsonParser, (req, res) => {
     .catch(err => res.status(500).json({message: 'Error in request'}));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
   Subject
     .findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())

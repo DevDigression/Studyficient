@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
+const passport = require('passport');
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 const {Video} = require('./models');
 const {Subject} = require('../subjects/models');
@@ -8,9 +10,11 @@ const {Subject} = require('../subjects/models');
 const router = express.Router();
 
 
-router.get('/', (req, res) => {
+router.get('/', jwtAuth, (req, res) => {
   Video
-    .find()
+    .find({
+      user: req.user.id
+    })
     .then(videos => {
       res.json({
           videos: videos.map(
@@ -24,7 +28,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser, jwtAuth, (req, res) => {
 	const requiredParams = ['subject', 'title', 'link'];
 
 	for (let i = 0; i < requiredParams.length; i++) {
@@ -40,7 +44,8 @@ router.post('/', jsonParser, (req, res) => {
     .create({
       subject: req.body.subject,
       title: req.body.title,
-      link: req.body.link
+      link: req.body.link,
+      user: req.user.id
     })
     .then(_video => {
       video = _video;
@@ -57,7 +62,7 @@ router.post('/', jsonParser, (req, res) => {
     });
 });
 
-router.put('/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, jwtAuth, (req, res) => {
   // if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
   //   const message = (
   //     `Request path id (${req.params.id}) and request body id ` +
@@ -81,7 +86,7 @@ router.put('/:id', jsonParser, (req, res) => {
     .catch(err => res.status(500).json({message: 'Error in request'}));
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', jwtAuth, (req, res) => {
   Video
     .findByIdAndRemove(req.params.id)
     .then(post => res.status(204).end())

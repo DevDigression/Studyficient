@@ -18,12 +18,12 @@ const {Subject} = require('./subjects/models');
 
 mongoose.Promise = global.Promise;
 
-// const { router: usersRouter } = require('./users');
+const { router: usersRouter } = require('./users');
 const { router: subjectsRouter } = require('./subjects');
 const { router: notesRouter } = require('./notes');
 const { router: videosRouter } = require('./videos');
 
-// const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
 
 
 // Logging
@@ -41,15 +41,15 @@ app.use(function (req, res, next) {
   next();
 });
 
-// passport.use(localStrategy);
-// passport.use(jwtStrategy);
+passport.use(localStrategy);
+passport.use(jwtStrategy);
 
-// app.use('/api/users/', usersRouter);
-// app.use('/api/auth/', authRouter);
+app.use('/api/users/', usersRouter);
+app.use('/api/auth/', authRouter);
 app.use('/api/subjects/', subjectsRouter);
 app.use('/api/notes/', notesRouter);
 app.use('/api/videos/', videosRouter);
-// const jwtAuth = passport.authenticate('jwt', { session: false });
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // A protected endpoint which needs a valid JWT to access it
 // app.get('/api/protected', jwtAuth, (req, res) => {

@@ -10,6 +10,7 @@ let state = {
 }
 
 $(() => {
+	state.token = localStorage.getItem("token");
   $('[data-toggle=offcanvas]').click(function() {
     $('.row-offcanvas').toggleClass('active');
   });
@@ -151,6 +152,9 @@ function displayNotes() {
   $.ajax({
     method: 'GET',
     url: `/api/subjects/${subjectId}`,
+    headers: {
+    	Authorization: "Bearer " + state.token 
+    },
     success: (data) => {
       state.notes = data.subject.notes;
       const notesList = data.subject.notes.map((item, index) => renderNotes(item));
@@ -165,6 +169,9 @@ function displaySubjects(){
   $.ajax({
     method: 'GET',
     url: '/api/subjects',
+    headers: {
+    	Authorization: "Bearer " + state.token 
+    },
     success: (data) => {
       state.subjects = data.subjects;
       const subjectsList = data.subjects.map((item, index) => renderSubjects(item));
@@ -187,6 +194,9 @@ function addSubject(subject) {
   $.ajax({
     method: 'POST',
     url: '/api/subjects/',
+    headers: {
+    	Authorization: "Bearer " + state.token
+    },
     data: JSON.stringify({
     	name: subject 
     }),
@@ -220,6 +230,9 @@ function addNote(note) {
   $.ajax({
     method: 'POST',
     url: '/api/notes',
+    headers: {
+    	Authorization: "Bearer " + state.token
+    },
     data: JSON.stringify(note),
     success: (data) => {
       displayNotes();
@@ -271,6 +284,9 @@ function displayVideos() {
   $.ajax({
     method: 'GET',
     url: `/api/subjects/${subjectId}`,
+    headers: {
+    	Authorization: "Bearer " + state.token 
+    },
     success: (data) => {
     	console.log(data);
       state.videos = data.subject.videos;
@@ -309,6 +325,9 @@ function addVideo(video) {
   $.ajax({
     method: 'POST',
     url: '/api/videos',
+    headers: {
+    	Authorization: "Bearer " + state.token
+    },
     data: JSON.stringify(video),
     success: (data) => {
       displayVideos();

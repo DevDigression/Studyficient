@@ -1,5 +1,4 @@
 'use strict';
-// const bcrypt = require('bcryptjs');
 
 const mongoose = require('mongoose');
 
@@ -18,11 +17,17 @@ const VideoSchema = mongoose.Schema({
   link: {
     type: String,
     required: true
+  },
+  user: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User'
   }
 });
 
 VideoSchema.methods.videoApiRepresentation = function() {
   return {
+    user: this.user,
   	subject: this.subject,
     title: this.title,
     link: this.link,

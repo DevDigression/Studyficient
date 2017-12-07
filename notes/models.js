@@ -1,5 +1,4 @@
 'use strict';
-// const bcrypt = require('bcryptjs');
 
 const mongoose = require('mongoose');
 
@@ -18,6 +17,11 @@ const NoteSchema = mongoose.Schema({
   content: {
     type: String,
     required: true
+  },
+  user: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User'
   }
 });
 
@@ -26,6 +30,7 @@ NoteSchema.methods.apiRepresentation = function() {
   	subject: this.subject,
     title: this.title,
     content: this.content,
+    user: this.user,
     id: this._id
   };
 };

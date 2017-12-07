@@ -13,13 +13,14 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  firstName: {type: String, default: ''},
-  lastName: {type: String, default: ''}
+  }
+  // firstName: {type: String, default: ''},
+  // lastName: {type: String, default: ''}
 });
 
 UserSchema.methods.apiRepr = function() {
   return {
+    id: this._id,
     username: this.username || '',
     firstName: this.firstName || '',
     lastName: this.lastName || ''
