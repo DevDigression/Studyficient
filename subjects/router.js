@@ -27,6 +27,7 @@ router.get('/:id', (req, res) => {
   Subject
     .findById(req.params.id)
     .populate('notes')
+    .populate('videos')
     .then(subject => {
       res.json({
           subject: subject.subjectApiRepresentation()

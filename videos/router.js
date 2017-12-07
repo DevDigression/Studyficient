@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const {Video} = require('./models');
+const {Subject} = require('../subjects/models');
 
 const router = express.Router();
 
@@ -24,8 +25,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', jsonParser, (req, res) => {
-	const requiredParams = ['subject', 'link'];
-
+	const requiredParams = ['subject', 'title', 'link'];
 
 	for (let i = 0; i < requiredParams.length; i++) {
 		const param = requiredParams[i];
@@ -35,13 +35,22 @@ router.post('/', jsonParser, (req, res) => {
 			return res.status(400).send(errorMessage);
 		}
 	}
-
+  let video;
   Video
     .create({
       subject: req.body.subject,
+      title: req.body.title,
       link: req.body.link
     })
-    .then(Video => res.status(201).json(Video.videoApiRepresentation()))
+    .then(_video => {
+      video = _video;
+      return Subject.findById(video.subject);
+    })
+    .then(subject => {
+      subject.videos.push(video._id);
+      return subject.save();
+    })
+    .then(subject => res.status(201).json(video.videoApiRepresentation()))
     .catch(err => {
         console.error(err);
         res.status(500).json({error: 'Error in request'});
@@ -58,7 +67,7 @@ router.put('/:id', jsonParser, (req, res) => {
   // }
 
   const videoUpdate = {};
-  const updateableParams = ['subject', 'link'];
+  const updateableParams = ['title', 'link'];
 
   updateableParams.forEach(param => {
     if (param in req.body) {

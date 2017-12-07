@@ -10,14 +10,16 @@ const SubjectSchema = mongoose.Schema({
   	type: String,
   	required: true
   },
-  notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}]
+  notes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Note'}],
+  videos: [{type: mongoose.Schema.Types.ObjectId, ref: 'Video'}]
 });
 
 SubjectSchema.methods.subjectApiRepresentation = function() {
   return {
   	name: this.name,
     id: this._id,
-    notes: this.notes
+    notes: this.notes,
+    videos: this.videos
   };
 };
 

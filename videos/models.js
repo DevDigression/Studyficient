@@ -7,10 +7,13 @@ mongoose.Promise = global.Promise;
 
 const VideoSchema = mongoose.Schema({
   subject: {
+    required: true,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Subject'
+  },
+  title: {
     type: String,
     required: true
-    // type: mongoose.Schema.Types.ObjectId, 
-    // ref: 'Subject'
   },
   link: {
     type: String,
@@ -21,6 +24,7 @@ const VideoSchema = mongoose.Schema({
 VideoSchema.methods.videoApiRepresentation = function() {
   return {
   	subject: this.subject,
+    title: this.title,
     link: this.link,
     id: this._id
   };

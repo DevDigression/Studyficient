@@ -32,7 +32,11 @@ $(() => {
   $('.subjects-display').on('click', '.sidebar-subject', function(event) {
     state.subjectId = $(event.currentTarget).attr('data-id');
 
+    $('#notes').removeClass('no-display');
+    $('#videos').removeClass('no-display');
+
     displayNotes();
+    displayVideos();
   });
 
 
@@ -84,15 +88,14 @@ $(() => {
 
 /******************************** VIDEOS ********************************/
 
-  displayVideos();
-
   $('.new-video-button').click(() => {
     $('#video-modal').modal('show')
   });
   $('#video-save').click((event) => {
     event.preventDefault();
     var video = {};
-    video.subject = $('#video-title').val();
+    video.subject = state.subjectId;
+    video.title = $('#video-title').val();
     video.link = $('#video-text').val();
     let id = $('#video-id').text();
 
@@ -112,11 +115,12 @@ $(() => {
   $('.videos-display').on('click', '.edit-button', (event) => {
     event.preventDefault();
     const thisVideoId = $(event.currentTarget).parent().attr('data-id');
-    let thisVideo = state.videos.find(video => video.id === thisVideoId);
+    console.log("This Video ID: " + thisVideoId);
+    let thisVideo = state.videos.find(video => video._id === thisVideoId);
     $('#video-modal').modal('show');
     $('#video-text').val(thisVideo.link);
-    $('#video-title').val(thisVideo.subject);
-    $('#video-id').text(thisVideo.id);
+    $('#video-title').val(thisVideo.title);
+    $('#video-id').text(thisVideo._id);
   });
   $('.videos-display').on('click', '.delete-button', (event) => {
     event.preventDefault();
@@ -261,12 +265,14 @@ function clearVideoModal() {
 }
 
 function displayVideos() {
+  let subjectId = state.subjectId;
   $.ajax({
     method: 'GET',
-    url: '/api/videos',
+    url: `/api/subjects/${subjectId}`,
     success: (data) => {
-      state.videos = data.videos;
-      const videosList = data.videos.map((item, index) => renderVideos(item));
+    	console.log(data);
+      state.videos = data.subject.videos;
+      const videosList = data.subject.videos.map((item, index) => renderVideos(item));
       $('.videos-display').html(videosList);
     },
     dataType: 'json',
@@ -275,9 +281,11 @@ function displayVideos() {
 }
 
 function renderVideos(video) {
+	console.log(video);
   return `
   <div class="col-md-3">
-  <div class="video-display" data-id=${video.id}>
+  <h4>${video.title}</h4>
+  <div class="video-display" data-id=${video._id}>
   <iframe width="100%" src="https://www.youtube.com/embed/${video.link}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
   <button class="edit-button btn btn-primary">Edit</button>
   <button class="delete-button btn btn-primary">Delete</button>
