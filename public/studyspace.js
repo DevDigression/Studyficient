@@ -30,6 +30,8 @@ $(() => {
 });
 
   $('.subjects-display').on('click', '.sidebar-subject', function(event) {
+  	$('.sidebar-subject').removeClass('active');
+  	$(event.currentTarget).addClass('active');
     state.subjectId = $(event.currentTarget).attr('data-id');
 
     $('#notes').removeClass('no-display');
