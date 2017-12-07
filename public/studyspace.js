@@ -52,8 +52,6 @@ $(() => {
     if (id) {
       updateNote(note, id);
     } else {
-      // TODO #7 make sure notes are created with a subjectID.
-      note.subjectId = state.subjectId;
       addNote(note);
     }
     $('#note-modal').modal('hide');
@@ -67,11 +65,12 @@ $(() => {
   $('.notes-display').on('click', '.edit-button', (event) => {
     event.preventDefault();
     const thisNoteId = $(event.currentTarget).parent().attr('data-id');
-    let thisNote = state.notes.find(note => note.id === thisNoteId);
+    console.log(thisNoteId);
+    let thisNote = state.notes.find(note => note._id === thisNoteId);
     $('#note-modal').modal('show');
     $('#note-text').val(thisNote.content);
     $('#note-title').val(thisNote.title);
-    $('#note-id').text(thisNote.id);
+    $('#note-id').text(thisNote._id);
   });
     $('.notes-display').on('click', '.delete-button', (event) => {
     event.preventDefault();
@@ -142,15 +141,7 @@ function clearNoteModal() {
 }
 
 function displayNotes() {
-  let subjectId = state.subjectId
- // TODO #4: check this out. We now get notes belonging to a specific subject,
- // by getting that subject
- // GO to the subject routes now. Do all the api routes for subjects
-
- // TODO #5 when doing /api/subject/${subjectId} on the server
- // make sure you do Subject.findByID(subjectId).pupulate('notes').then...
- // adding ppopulate loads all the notes from db that belong to a subject
-
+  let subjectId = state.subjectId;
   $.ajax({
     method: 'GET',
     url: `/api/subjects/${subjectId}`,
@@ -204,9 +195,10 @@ function addSubject(subject) {
 }
 
 function renderNotes(note) {
+	console.log(note);
   return `
   <div class="col-md-3">
-  <div class="note-display" data-id=${note.id}>
+  <div class="note-display" data-id=${note._id}>
   <h3>${note.title}</h3>
   <p>${note.content}</p>
   <button class="edit-button btn btn-primary">Edit</button>

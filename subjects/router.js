@@ -25,7 +25,8 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   Subject
-    .findById(req.params.id).populate('notes')
+    .findById(req.params.id)
+    .populate('notes')
     .then(subject => {
       res.json({
           subject: subject.subjectApiRepresentation()

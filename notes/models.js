@@ -7,10 +7,9 @@ mongoose.Promise = global.Promise;
 
 const NoteSchema = mongoose.Schema({
   subject: {
-    type: String,
-    required: true
-    // type: mongoose.Schema.Types.ObjectId, 
-    // ref: 'Subject'
+    required: true,
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Subject'
   },
   title: {
   	type: String,
