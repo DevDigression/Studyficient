@@ -283,12 +283,11 @@ function displayVideos() {
 }
 
 function renderVideos(video) {
-	console.log(video);
   return `
   <div class="col-md-3">
   <h4>${video.title}</h4>
   <div class="video-display" data-id=${video._id}>
-  <iframe width="100%" src="https://www.youtube.com/embed/${video.link}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+  <iframe width="100%" src="https://www.youtube.com/embed/${parseVideoId(video.link)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
   <button class="edit-button btn btn-primary">Edit</button>
   <button class="delete-button btn btn-primary">Delete</button>
   </div>
@@ -296,15 +295,13 @@ function renderVideos(video) {
   `
 }
 
-// function parseVideoLink (link) {
-// var video_id = window.location.search.split('v=')[1];
-// var ampersandPosition = video_id.indexOf('&');
-// if(ampersandPosition != -1) {
-//   video_id = video_id.substring(0, ampersandPosition);
-// }
-// console.log(video_id);
-// return video_id;
-// }
+function parseVideoId (link) {
+	let embedVideo = link.split('v=')[1];
+	// if(embedVideo.indexOf('&') != -1) {
+ //  	embedVideo = embedVideo.substring(0, embedvideo.indexOf('&'));
+	// }
+	return embedVideo;
+}
 
 function addVideo(video) {
   console.log("addVideo: ");
