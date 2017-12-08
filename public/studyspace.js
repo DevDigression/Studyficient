@@ -15,11 +15,18 @@ $(() => {
     $('.row-offcanvas').toggleClass('active');
   });
 
+  $('#logout').click((event) => {
+    event.preventDefault();
+    state.token = localStorage.clear();
+    window.location = "/login.html";
+  });
+
   /******************************** NOTES ********************************/
 
 
   $('#add-subject').click(function() {
     $('#new-subject-form').removeClass('no-display');
+    $('#get-started').addClass('no-display');
 });
   $('#new-subject-form').submit(function(event) {
   	event.preventDefault();
@@ -31,8 +38,10 @@ $(() => {
 });
 
   $('.subjects-display').on('click', '.sidebar-subject', function(event) {
-  	$('.sidebar-subject').removeClass('active');
-  	$(event.currentTarget).addClass('active');
+    event.preventDefault();
+    $('#get-started').addClass('no-display');
+  	$('.sidebar-subject').removeClass('active-subject');
+  	$(event.currentTarget).addClass('active-subject');
     state.subjectId = $(event.currentTarget).attr('data-id');
 
     $('#notes').removeClass('no-display');
@@ -249,6 +258,9 @@ function updateNote(note, id) {
 	$.ajax({
 		method: 'PUT',
 		url: '/api/notes/' + id,
+    headers: {
+      Authorization: "Bearer " + state.token 
+    },
 		data: JSON.stringify(note),
 		success: (data) => {
 			displayNotes();
@@ -262,6 +274,9 @@ function deleteNote(id) {
 	$.ajax({
 		method: 'DELETE',
 		url: '/api/notes/' + id,
+    headers: {
+      Authorization: "Bearer " + state.token 
+    },
 		success: (data) => {
 			displayNotes();
 		},
@@ -344,6 +359,9 @@ function updateVideo(video, id) {
 	$.ajax({
 		method: 'PUT',
 		url: '/api/videos/' + id,
+    headers: {
+      Authorization: "Bearer " + state.token 
+    },
 		data: JSON.stringify(video),
 		success: (data) => {
 			displayVideos();
@@ -357,6 +375,9 @@ function deleteVideo(id) {
 	$.ajax({
 		method: 'DELETE',
 		url: '/api/videos/' + id,
+    headers: {
+      Authorization: "Bearer " + state.token 
+    },
 		success: (data) => {
 			displayVideos();
 		},

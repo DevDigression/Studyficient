@@ -9,11 +9,15 @@ body {
   padding-top: 50px;
 }
 
+h3 {
+  text-align: center;
+}
+
 .no-display {
   display: none;
 }
 
-.active {
+.active-subject {
   background: #337ab7;
   border-color: #2e6da4;
   border-radius: 3px;
@@ -84,14 +88,18 @@ body {
 
 #sidebar {
   width: inherit;
-  min-width: 200px;
-  max-width: 200px;
-  background-color: #f5f5f5;
+  min-width: 220px;
+  max-width: 220px;
+  background-color: #F5F5F5;
   float: left;
   height: 100%;
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.sidebar-subject {
+  padding: 10px;
 }
 
 #main {
@@ -101,13 +109,14 @@ body {
 
 
 
-@media screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
+
   .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;
-    width:calc(100% + 220px);
+    width: calc(100% + 220px);
   }
 
   .row-offcanvas-left
@@ -123,4 +132,5 @@ body {
     position: absolute;
     top: 0;
   }
+
 }
