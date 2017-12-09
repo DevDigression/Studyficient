@@ -69,6 +69,10 @@ p {
   color: #808080;
 }
 
+#signup-form a:hover {
+  color: rgb(212, 222, 0);
+}
+
 #signup-btn {
   width: 100px;
   height: 30px;
@@ -77,6 +81,9 @@ p {
   color: #808080;
 }
 
+.demo {
+  color: rgb(212, 222, 0);
+}
 
 
 

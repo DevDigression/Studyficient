@@ -102,6 +102,10 @@ h1, h2, h3, h4 {
   overflow-x: hidden;
 }
 
+.subject-header {
+  text-align: left;
+}
+
 .subjects-display {
   padding-left: 10px;
   margin-bottom: 20px;
