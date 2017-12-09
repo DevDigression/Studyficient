@@ -133,4 +133,9 @@ h3 {
     top: 0;
   }
 
+  .visible-xs {
+    position: absolute;
+    left: 0;
+  }
+
 }
