@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: 2MN5mnNkusbDlX/zaXIQ9DNKP3NwPEtvgBREVb/fpHYm8ysP/si17EMp0M914tXhhHdlOu/cGV9m6sr4QlUL9s9XSwqAFEZn+eY9NWYGqxQd+eLJANfLKyoK0+DX8F3mOk07+v+IqoeGTM4e6WkBw+jvfIzWQifxUlHxCGI5n5pm0UbvCZ0yZSRJ0pOaYhI3Wu4mHLWiE8atgMZTiTmUy+ckxHidec3lIWuSSd8A2hZtJzYVOhyXonPkHO+R9u9Pll1SabjDai5Pu//znOOsZieEDOpgh0IebxS53fUMMtg15t7PKrm8ouwzOG/uI1h5P1Z5twwU2msCXZZJhVne1R1kbpb5RgcZ+w0vomtudWENGmu2XPzyY+BHnfd/e9HA1hIBDqh75X0x7KP4oCUHw8kZQ6Zh1/xmrADBKJwuadwvEE/UX0+cHxkoyTpKy6/YA4cMyuwSg+VYsMTpU3lXZNSMCCZu2VVoBvwyBqoyitQzimW9muSJ0aGBTShF6ezN525mBLAC2Q7T1aICXeoArsar8k87nMQDdjTMr4TEV6pnI/kML8EwsPZZQiSVwfbmmTCDOWTS4Rh/QiOkhFUi8W4ZT4ceKBtmcyegrXoT0sBciu8q0ymLJ80TY77T0v6QsMnB+/9ahrqv+AMtRHdbqUpEbwLn8lNGysrLYmOMM5Q=
+  app: studyficient
+  on:
+    repo: DevDigression/Studyficient
