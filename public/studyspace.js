@@ -204,7 +204,7 @@ function displaySubjects(){
 
 function renderSubjects(subject) {
   return `
-  <li class="sidebar-subject" data-id=${subject.id}>${subject.name}<button class="delete-subject invisible">Remove</button></li>
+  <li class="sidebar-subject" data-id=${subject.id}>${subject.name}<i class="fa fa-times delete-subject invisible" aria-hidden="true"></i></li>
   `
 }
 
@@ -267,7 +267,6 @@ function deleteSubject(id) {
 }
 
 function renderNotes(note) {
-	console.log(note);
   return `
   <div class="col-md-3">
   <div class="note-display" data-id=${note._id}>
@@ -368,9 +367,9 @@ function renderVideos(video) {
     embedVideo = link.split('.com/')[1];
       return `
       <div class="col-md-3">
-      <h4>${video.title}</h4>
       <div class="video-display" data-id=${video._id}>
-     <iframe src="https://player.vimeo.com/video/${embedVideo}" width="100%"frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <iframe width="100%" height="100%" src="https://player.vimeo.com/video/${embedVideo}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <h4>${video.title}</h4>
       <button class="edit-button btn btn-primary">Edit</button>
       <button class="delete-button btn btn-primary">Delete</button>
       </div>
@@ -380,9 +379,9 @@ function renderVideos(video) {
     embedVideo = link.split('v=')[1];
       return `
       <div class="col-md-3">
-      <h4>${video.title}</h4>
       <div class="video-display" data-id=${video._id}>
       <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+      <h4>${video.title}</h4>
       <button class="edit-button btn btn-primary">Edit</button>
       <button class="delete-button btn btn-primary">Delete</button>
       </div>
