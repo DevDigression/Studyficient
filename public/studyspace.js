@@ -54,9 +54,18 @@ $(() => {
 
     $('.subjects-display').on('click', '.delete-subject', (event) => {
     event.preventDefault();
+    const thisSubjectName = $(event.currentTarget).parent().attr('name');
     const thisSubjectId = $(event.currentTarget).parent().attr('data-id');
+    
+    let confirmDelete = confirm(`Are you sure that you want to delete ${thisSubjectName}, along with all of the notes and videos for this subject?`);
+    if (confirmDelete) {
+    $('#notes').addClass('no-display');
+    $('#videos').addClass('no-display');
+    $('#get-started').removeClass('no-display');
     deleteSubject(thisSubjectId);
-
+    displaySubjects();
+    }
+    // TODO Fix confirm alert - currently, asks multiple times
     // TODO Reload after subject deleted
   });
 
@@ -204,7 +213,7 @@ function displaySubjects(){
 
 function renderSubjects(subject) {
   return `
-  <li class="sidebar-subject" data-id=${subject.id}>${subject.name}<i class="fa fa-times delete-subject invisible" aria-hidden="true"></i></li>
+  <li class="sidebar-subject" name="${subject.name}" data-id=${subject.id}>${subject.name}<i class="fa fa-times delete-subject invisible" aria-hidden="true"></i></li>
   `
 }
 
