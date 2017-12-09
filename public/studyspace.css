@@ -17,6 +17,10 @@ h3 {
   display: none;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .active-subject {
   background: #337ab7;
   border-color: #2e6da4;
@@ -26,10 +30,6 @@ h3 {
 
 .navbar ul {
   float: right;
-}
-
-.subjects-display {
-  padding-left: 10px;
 }
 
 #add-subject {
@@ -99,8 +99,21 @@ h3 {
   overflow-x: hidden;
 }
 
+.subjects-display {
+  padding-left: 10px;
+  margin-bottom: 20px;
+}
+
 .sidebar-subject {
   padding: 10px;
+}
+
+.delete-subject {
+  width: 70px;
+  margin-left: 30px;
+  background-color: #FFF;
+  border-radius: 3px;
+  color: #337ab7;
 }
 
 #main {

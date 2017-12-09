@@ -41,7 +41,9 @@ $(() => {
     event.preventDefault();
     $('#get-started').addClass('no-display');
   	$('.sidebar-subject').removeClass('active-subject');
+    $('.delete-subject').addClass('invisible');
   	$(event.currentTarget).addClass('active-subject');
+    $(event.currentTarget).find('.delete-subject').removeClass('invisible');
     state.subjectId = $(event.currentTarget).attr('data-id');
 
     $('#notes').removeClass('no-display');
@@ -49,7 +51,16 @@ $(() => {
 
     displayNotes();
     displayVideos();
+
+    $('.subjects-display').on('click', '.delete-subject', (event) => {
+    event.preventDefault();
+    const thisSubjectId = $(event.currentTarget).parent().attr('data-id');
+    deleteSubject(thisSubjectId);
+
+    // TODO Reload after subject deleted
   });
+
+});
 
 
    displaySubjects();
@@ -193,7 +204,7 @@ function displaySubjects(){
 
 function renderSubjects(subject) {
   return `
-  <li class="sidebar-subject" data-id=${subject.id}>${subject.name}</li>
+  <li class="sidebar-subject" data-id=${subject.id}>${subject.name}<button class="delete-subject invisible">Remove</button></li>
   `
 }
 
@@ -218,6 +229,46 @@ function addSubject(subject) {
     contentType: 'application/json'
   });
 }
+
+function updateSubject(subject, id) {
+  console.log("updateSubject: ");
+  console.log(subject);
+  console.log("subject ID: " + id);
+  $.ajax({
+    method: 'PUT',
+    url: '/api/subjects/' + id,
+    headers: {
+      Authorization: "Bearer " + state.token 
+    },
+    data: JSON.stringify({
+      name: subject 
+    }),
+    success: (data) => {
+      displaySubjects();
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
+}
+
+function deleteSubject(id) {
+  $.ajax({
+    method: 'DELETE',
+    url: '/api/subjects/' + id,
+    headers: {
+      Authorization: "Bearer " + state.token 
+    },
+    success: (data) => {
+      displaySubjects();
+    },
+    dataType: 'json',
+    contentType: 'application/json'
+  });
+}
+
+
+
+
 
 function renderNotes(note) {
 	console.log(note);
