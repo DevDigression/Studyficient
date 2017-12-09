@@ -5,6 +5,7 @@ const {PORT, DATABASE_URL} = require('../config');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const should = chai.should();
 
 const {app, runServer, closeServer} = require('../server');
 const {User} = require('../users');
@@ -24,7 +25,7 @@ describe('Studyficient API', function() {
     });
 
   describe('GET request tests', function(){
-    it('Should retrieve a list of all blog posts', function() {
+    it('Should retrieve a list of users', function() {
       let res;
       return chai.request(app)
       .get('/api/users')
