@@ -266,10 +266,6 @@ function deleteSubject(id) {
   });
 }
 
-
-
-
-
 function renderNotes(note) {
 	console.log(note);
   return `
@@ -365,24 +361,34 @@ function displayVideos() {
 }
 
 function renderVideos(video) {
-  return `
-  <div class="col-md-3">
-  <h4>${video.title}</h4>
-  <div class="video-display" data-id=${video._id}>
-  <iframe width="100%" src="https://www.youtube.com/embed/${parseVideoId(video.link)}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-  <button class="edit-button btn btn-primary">Edit</button>
-  <button class="delete-button btn btn-primary">Delete</button>
-  </div>
-  </div>
-  `
-}
+  let embedVideo;
+  let link = video.link;
 
-function parseVideoId (link) {
-	let embedVideo = link.split('v=')[1];
-	// if(embedVideo.indexOf('&') != -1) {
- //  	embedVideo = embedVideo.substring(0, embedvideo.indexOf('&'));
-	// }
-	return embedVideo;
+  if ((link.indexOf('vimeo')) != -1) {
+    embedVideo = link.split('.com/')[1];
+      return `
+      <div class="col-md-3">
+      <h4>${video.title}</h4>
+      <div class="video-display" data-id=${video._id}>
+     <iframe src="https://player.vimeo.com/video/${embedVideo}" width="100%"frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <button class="edit-button btn btn-primary">Edit</button>
+      <button class="delete-button btn btn-primary">Delete</button>
+      </div>
+      </div>
+      `
+  } else {
+    embedVideo = link.split('v=')[1];
+      return `
+      <div class="col-md-3">
+      <h4>${video.title}</h4>
+      <div class="video-display" data-id=${video._id}>
+      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+      <button class="edit-button btn btn-primary">Edit</button>
+      <button class="delete-button btn btn-primary">Delete</button>
+      </div>
+      </div>
+      `
+  }
 }
 
 function addVideo(video) {
