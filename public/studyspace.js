@@ -384,6 +384,19 @@ function renderVideos(video) {
       </div>
       </div>
       `
+  } else if (link.indexOf('youtu.be') != -1) {
+      embedVideo = link.split('.be/')[1];
+      return `
+      <div class="col-md-3">
+      <div class="video-display" data-id=${video._id}>
+      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+      <h4>${video.title}</h4>
+      <button class="edit-button btn btn-primary">Edit</button>
+      <button class="delete-button btn btn-primary">Delete</button>
+      </div>
+      </div>
+      `
+
   } else {
     embedVideo = link.split('v=')[1];
       return `
