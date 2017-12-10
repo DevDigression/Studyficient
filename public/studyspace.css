@@ -83,7 +83,7 @@ h1, h2, h3, h4 {
 }
 
 .new-note-button, .new-video-button {
-  margin-top: 20px;
+  margin: 20px auto;
 }
 
 .row-offcanvas {
@@ -179,6 +179,10 @@ textarea {
 
   .video-display h4 {
     padding: 10px;
+  }
+
+  .study-footer {
+    margin: 0 auto;
   }
 
 }

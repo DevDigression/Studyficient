@@ -36,6 +36,10 @@ p {
   float: right;
 }
 
+.home-block li {
+  padding: 10px;
+}
+
 .home-top {
   margin-top: 50px;
   width: 100%;
@@ -50,6 +54,7 @@ p {
 
 .home-color {
   background-color: #808080;
+  color: #FFF;
 }
 
 .home-block {
@@ -60,7 +65,7 @@ p {
 .home-block ul {
   list-style: none;
   text-align: center;
-  font-size: 36px;
+  font-size: 32px;
   padding: 20px;
 }
 
