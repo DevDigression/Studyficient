@@ -1,7 +1,7 @@
 'use strict';
-// global.DATABASE_URL = 'mongodb://localhost/jwt-auth-demo-test';
+
 require('dotenv').config();
-const {PORT, DATABASE_URL} = require('../config');
+const {PORT, TEST_DATABASE_URL} = require('../config');
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -17,7 +17,7 @@ chai.use(chaiHttp);
 
 describe('Studyficient API', function() {
     before(function() {
-      return runServer(DATABASE_URL);
+      return runServer(TEST_DATABASE_URL);
     });
 
     after(function() {

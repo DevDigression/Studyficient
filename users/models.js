@@ -22,8 +22,8 @@ UserSchema.methods.apiRepr = function() {
   return {
     id: this._id,
     username: this.username || '',
-    firstName: this.firstName || '',
-    lastName: this.lastName || ''
+    // firstName: this.firstName || '',
+    // lastName: this.lastName || ''
   };
 };
 
