@@ -37,39 +37,38 @@ $(() => {
     $('#new-subject-form').addClass('no-display');
 });
 
-  $('.subjects-display').on('click', '.sidebar-subject', function(event) {
+  $('.subjects-display').on('click', '.sidebar-subject-button', function(event) {
     event.preventDefault();
     $('#get-started').addClass('no-display');
   	$('.sidebar-subject').removeClass('active-subject');
     $('.delete-subject').addClass('invisible');
-  	$(event.currentTarget).addClass('active-subject');
-    $(event.currentTarget).find('.delete-subject').removeClass('invisible');
-    state.subjectId = $(event.currentTarget).attr('data-id');
+  	$(event.currentTarget).parent().addClass('active-subject');
+    $(event.currentTarget).parent().find('.delete-subject').removeClass('invisible');
+    state.subjectId = $(event.currentTarget).parent().attr('data-id');
 
     $('#notes').removeClass('no-display');
     $('#videos').removeClass('no-display');
-
+    console.log("Show display");
     displayNotes();
     displayVideos();
+});
 
-    $('.subjects-display').on('click', '.delete-subject', (event) => {
+  $('.subjects-display').on('click', '.delete-subject', (event) => {
     event.preventDefault();
     const thisSubjectName = $(event.currentTarget).parent().attr('name');
     const thisSubjectId = $(event.currentTarget).parent().attr('data-id');
     
     let confirmDelete = confirm(`Are you sure that you want to delete ${thisSubjectName}, along with all of the notes and videos for this subject?`);
-    if (confirmDelete) {
-    $('#notes').addClass('no-display');
-    $('#videos').addClass('no-display');
-    $('#get-started').removeClass('no-display');
-    deleteSubject(thisSubjectId);
-    displaySubjects();
+      if (confirmDelete) {
+      $('#notes').addClass('no-display');
+      $('#videos').addClass('no-display');
+      $('#get-started').removeClass('no-display');
+      deleteSubject(thisSubjectId);
+      console.log("Deleted subject");
     }
     // TODO Fix confirm alert - currently, asks multiple times
     // TODO Reload after subject deleted
   });
-
-});
 
 
    displaySubjects();
@@ -213,7 +212,7 @@ function displaySubjects(){
 
 function renderSubjects(subject) {
   return `
-  <li class="sidebar-subject" name="${subject.name}" data-id=${subject.id}>${subject.name}<i class="fa fa-times delete-subject invisible" aria-hidden="true"></i></li>
+  <li class="sidebar-subject" name="${subject.name}" data-id=${subject.id}><span class="sidebar-subject-button">${subject.name}</span><i class="fa fa-times delete-subject invisible" aria-hidden="true"></i></li>
   `
 }
 
@@ -268,6 +267,7 @@ function deleteSubject(id) {
       Authorization: "Bearer " + state.token 
     },
     success: (data) => {
+      state.subjectId = "";
       displaySubjects();
     },
     dataType: 'json',
@@ -377,8 +377,8 @@ function renderVideos(video) {
       return `
       <div class="col-md-3">
       <div class="video-display" data-id=${video._id}>
-      <iframe width="100%" height="100%" src="https://player.vimeo.com/video/${embedVideo}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       <h4>${video.title}</h4>
+      <iframe width="100%" height="100%" src="https://player.vimeo.com/video/${embedVideo}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       <button class="edit-button btn btn-primary">Edit</button>
       <button class="delete-button btn btn-primary">Delete</button>
       </div>
@@ -389,8 +389,8 @@ function renderVideos(video) {
       return `
       <div class="col-md-3">
       <div class="video-display" data-id=${video._id}>
-      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
       <h4>${video.title}</h4>
+      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
       <button class="edit-button btn btn-primary">Edit</button>
       <button class="delete-button btn btn-primary">Delete</button>
       </div>
@@ -402,8 +402,8 @@ function renderVideos(video) {
       return `
       <div class="col-md-3">
       <div class="video-display" data-id=${video._id}>
-      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
       <h4>${video.title}</h4>
+      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
       <button class="edit-button btn btn-primary">Edit</button>
       <button class="delete-button btn btn-primary">Delete</button>
       </div>
