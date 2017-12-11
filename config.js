@@ -1,9 +1,11 @@
 'use strict';
 exports.DATABASE_URL =
     process.env.DATABASE_URL ||
-    global.DATABASE_URL ||
-    // 'mongodb://localhost/jwt-auth-demo';
-    'mongodb://study:study123@ds123722.mlab.com:23722/studyficient';
+    global.DATABASE_URL || 'mongodb://localhost/studyficient';
+exports.TEST_DATABASE_URL =
+    process.env.TEST_DATABASE_URL ||
+    global.TEST_DATABASE_URL || 'mongodb://localhost/studyficient_tests';
+
 exports.PORT = process.env.PORT || 8080;
 exports.JWT_SECRET = process.env.JWT_SECRET || 'study';
 exports.JWT_EXPIRY = process.env.JWT_EXPIRY || '7d';

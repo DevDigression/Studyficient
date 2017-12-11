@@ -16,8 +16,7 @@ router.get('/', jwtAuth, (req, res) => {
     })
     .then(notes => {
       res.json({
-          notes: notes.map(
-          (note) => note.apiRepresentation())
+          notes: notes.map( note => note.apiRepresentation())
         });
     })
     .catch(
