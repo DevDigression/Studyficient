@@ -97,5 +97,6 @@ describe('Protected endpoint', function() {
              restaurant.address.zipcode.should.equal(newNote.address.zipcode);
            });
        });
+       
   });
 });
