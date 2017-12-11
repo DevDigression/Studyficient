@@ -66,8 +66,6 @@ $(() => {
       deleteSubject(thisSubjectId);
       console.log("Deleted subject");
     }
-    // TODO Fix confirm alert - currently, asks multiple times
-    // TODO Reload after subject deleted
   });
 
 
