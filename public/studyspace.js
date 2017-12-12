@@ -367,45 +367,37 @@ function displayVideos() {
 }
 
 function renderVideos(video) {
-  let embedVideo;
   let link = video.link;
 
-  if ((link.indexOf('vimeo')) != -1) {
-    embedVideo = link.split('.com/')[1];
-      return `
+    return `
       <div class="col-md-3">
       <div class="video-display" data-id=${video._id}>
       <h4>${video.title}</h4>
-      <iframe width="100%" height="100%" src="https://player.vimeo.com/video/${embedVideo}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      ${getVideoId(link)}
       <button class="edit-button btn btn-primary">Edit</button>
       <button class="delete-button btn btn-primary">Delete</button>
       </div>
       </div>
+      `
+}
+
+function getVideoId(link) {
+  let videoId;
+
+  if ((link.indexOf('vimeo')) != -1) {
+    videoId = link.split('.com/')[1];
+      return `
+      <iframe width="100%" height="100%" src="https://player.vimeo.com/video/${videoId}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
       `
   } else if (link.indexOf('youtu.be') != -1) {
-      embedVideo = link.split('.be/')[1];
+      videoId = link.split('.be/')[1];
       return `
-      <div class="col-md-3">
-      <div class="video-display" data-id=${video._id}>
-      <h4>${video.title}</h4>
-      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-      <button class="edit-button btn btn-primary">Edit</button>
-      <button class="delete-button btn btn-primary">Delete</button>
-      </div>
-      </div>
+      <iframe width="100%" src="https://www.youtube.com/embed/${videoId}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
       `
-
   } else {
-    embedVideo = link.split('v=')[1];
+    videoId = link.split('v=')[1];
       return `
-      <div class="col-md-3">
-      <div class="video-display" data-id=${video._id}>
-      <h4>${video.title}</h4>
-      <iframe width="100%" src="https://www.youtube.com/embed/${embedVideo}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
-      <button class="edit-button btn btn-primary">Edit</button>
-      <button class="delete-button btn btn-primary">Delete</button>
-      </div>
-      </div>
+      <iframe width="100%" src="https://www.youtube.com/embed/${videoId}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
       `
   }
 }
