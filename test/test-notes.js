@@ -140,7 +140,7 @@ describe('Protected endpoint', function() {
     });
   });
 
-//   describe('/api/notes', function() {
+//   describe('POST endpoint', function() {
 
 // // TODO: DO all normal tests like restaurants -> for notes
 // // https://github.com/Thinkful-Ed/node-restaurants-app-mongoose/blob/feature/with-tests/test/test-restaurants-integration.js
