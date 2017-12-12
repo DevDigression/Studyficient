@@ -16,39 +16,40 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 
-// function seedNoteData() {
-//   console.info('seeding note data');
-//   const seedData = [];
+function seedNoteData() {
+  console.info('seeding note data');
+  const seedData = [];
 
-//   for (let i=1; i<=10; i++) {
-//     seedData.push(generateNoteData());
-//   }
-//   return Note.insertMany(seedData);
-// }
+  for (let i=1; i<=10; i++) {
+    seedData.push(generateNoteData());
+  }
+  return Note.insertMany(seedData);
+}
 
-// function generateNoteSubject() {
-//   const subjects = [
-//     'English', 'History', 'Math', 'Science'];
-//   return subjects[Math.floor(Math.random() * subjects.length)];
-// }
+function generateNoteSubject() {
+  const subjects = [
+    'English', 'History', 'Math', 'Science'];
+  return subjects[Math.floor(Math.random() * subjects.length)];
+}
 
-// function generateNoteTitle() {
-//   const titles = ['ENG 101', 'HIS 200', 'CAL 321', 'PHY 400'];
-//   return titles[Math.floor(Math.random() * titles.length)];
-// }
+function generateNoteTitle() {
+  const titles = ['ENG 101', 'HIS 200', 'CAL 321', 'PHY 400'];
+  return titles[Math.floor(Math.random() * titles.length)];
+}
 
-// function generateNoteContent() {
-//   const contents = ['The finest works in British Literature...', 'The year was 1776...', 'Derivatives measure instantaneous rates of change...', 'A vector has both magnitude and direction...'];
-//   return contents[Math.floor(Math.random() * contents.length)];
-// }
+function generateNoteContent() {
+  const contents = ['The finest works in British Literature...', 'The year was 1776...', 'Derivatives measure instantaneous rates of change...', 'A vector has both magnitude and direction...'];
+  return contents[Math.floor(Math.random() * contents.length)];
+}
 
-// function generateNoteData() {
-//   return {
-//     subject: generateNoteSubject(),
-//     title: generateNoteTitle(),
-//     content: generateNoteContent(),
-//   };
-// }
+function generateNoteData() {
+  return {
+    subject: generateNoteSubject(),
+    title: generateNoteTitle(),
+    content: generateNoteContent(),
+    user: '5a2c382af504340014e01db4'
+  };
+}
 
 function tearDownDb() {
   console.warn('Deleting database');
@@ -93,6 +94,10 @@ describe('Protected endpoint', function() {
   afterEach(function() {
     return User.remove({});
   });
+
+// TODO: DO all normal tests like restaurants -> for notes
+// https://github.com/Thinkful-Ed/node-restaurants-app-mongoose/blob/feature/with-tests/test/test-restaurants-integration.js
+
 
   describe('GET endpoint', function() {
 
@@ -141,9 +146,6 @@ describe('Protected endpoint', function() {
   });
 
   describe('POST endpoint', function() {
-
-// TODO: DO all normal tests like restaurants -> for notes
-// https://github.com/Thinkful-Ed/node-restaurants-app-mongoose/blob/feature/with-tests/test/test-restaurants-integration.js
 
     it('should add a new note', function() {
 

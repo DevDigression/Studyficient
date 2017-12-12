@@ -1,13 +1,9 @@
 /**********************  Signup  ********************************/
 
 body {
-  background: url(https://static.pexels.com/photos/207691/pexels-photo-207691.jpeg);
+  background: url(https://static.pexels.com/photos/268351/pexels-photo-268351.jpeg);
   background-size: cover;
   background-position: center;
-}
-
-h1 {
-  padding-top: 8%;
 }
 
 h3 {
@@ -32,13 +28,13 @@ p {
 
 #signup-page {
   width: 60%;
-  margin: 5% auto;
+  margin: 10% auto;
 }
 
 #signup-header {
   text-align: center;
   color: #D4DE00;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 2px 2px 3px black;
 }
 
 #signup-page input {
@@ -90,13 +86,14 @@ p {
 @media screen and (max-width: 768px) {
 #signup-page {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 50px;
   padding: 20px;
 }
 
 #signup-form {
   width: 100%;
-  padding: 20px;
+  padding: 20px 30px;
+  margin-top: 50px;
 }
 
 }
