@@ -15,6 +15,40 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
+function seedVideoData() {
+  console.info('seeding video data');
+  const seedData = [];
+
+  for (let i=1; i<=10; i++) {
+    seedData.push(generateVideoData());
+  }
+  return Video.insertMany(seedData);
+}
+
+function generateVideoSubject() {
+  const subjects = [
+    'English', 'History', 'Math', 'Science'];
+  return subjects[Math.floor(Math.random() * subjects.length)];
+}
+
+function generateVideoTitle() {
+  const titles = ['ENG 101', 'HIS 200', 'CAL 321', 'PHY 400'];
+  return titles[Math.floor(Math.random() * titles.length)];
+}
+
+function generateVideoLink() {
+  const links = ['https://www.youtube.com/watch?v=MSYw502dJNY', 'https://www.youtube.com/watch?v=bO7FQsCcbD8', 'https://www.youtube.com/watch?v=rAof9Ld5sOg', 'https://www.youtube.com/watch?v=w3BhzYI6zXU'];
+  return links[Math.floor(Math.random() * links.length)];
+}
+
+function generateVideoData() {
+  return {
+    subject: generateVideoSubject(),
+    title: generateVideoTitle(),
+    link: generateVideoLink(),
+    user: '5a2c382af504340014e01db4'
+  };
+}
 
 function tearDownDb() {
   console.warn('Deleting database');
@@ -47,6 +81,10 @@ describe('Protected endpoint', function() {
     return closeServer();
   });
 
+ afterEach(function() {
+    return tearDownDb();
+  });
+
   beforeEach(function() {
     return User.hashPassword(password).then(password =>
       User.create({
@@ -54,6 +92,10 @@ describe('Protected endpoint', function() {
         password
       })
     );
+  });
+
+  beforeEach(function() {
+    return seedVideoData();
   });
 
   afterEach(function() {

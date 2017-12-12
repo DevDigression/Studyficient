@@ -82,6 +82,10 @@ describe('Protected endpoint', function() {
     return closeServer();
   });
 
+   afterEach(function() {
+    return tearDownDb();
+  });
+
   beforeEach(function() {
     return User.hashPassword(password).then(password =>
       User.create({
@@ -89,6 +93,10 @@ describe('Protected endpoint', function() {
         password
       })
     );
+  });
+
+  beforeEach(function() {
+    return seedNoteData();
   });
 
   afterEach(function() {
