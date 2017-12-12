@@ -30,6 +30,10 @@ p {
   float: right;
 }
 
+#error-message{
+  color:red;
+}
+
 #login-page {
   width: 60%;
   margin: 10% auto;
