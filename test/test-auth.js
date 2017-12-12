@@ -4,9 +4,9 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
 
-const { app, runServer, closeServer } = require('../server');
-const { User } = require('../users');
-const { JWT_SECRET, TEST_DATABASE_URL} = require('../config');
+const {app, runServer, closeServer} = require('../server');
+const {User} = require('../users');
+const {JWT_SECRET, TEST_DATABASE_URL} = require('../config');
 
 const expect = chai.expect;
 
@@ -225,4 +225,3 @@ describe('Auth endpoints', function () {
     });
   });
 });
->>>>>>> 557ffab3e0b8c63432c20c09fbe9555e7613e886
