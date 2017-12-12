@@ -10,6 +10,7 @@ const {Subject} = require('../subjects/models');
 const router = express.Router();
 
 router.get('/', jwtAuth, (req, res) => {
+
   Note
     .find({
       user: req.user.id
