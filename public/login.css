@@ -12,8 +12,8 @@ p {
   font-size: 36px;
 }
 
-#login-form a {
-  color: #D4DE00;
+.invisible {
+  visibility: hidden;
 }
 
 .left {
@@ -67,19 +67,26 @@ p {
   padding: 50px;
 }
 
-#login-form input {
-  color: #808080;
+#login-form a {
+  color: #D4DE00;
 }
 
-#login-btn {
+#login-form input {
+  color: #323232;
+}
+
+#login-btn, #demo-btn {
   width: 100px;
   height: 30px;
   display: block;
   margin: 20px auto;
-  color: #808080;
+  color: #323232;
 }
 
-
+#error-message {
+  height: 30px;
+  color: #FFF;
+}
 
 
 @media screen and (max-width: 768px) {

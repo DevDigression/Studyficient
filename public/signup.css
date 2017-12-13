@@ -60,10 +60,10 @@ p {
 }
 
 #signup-form input {
-  color: #808080;
+  color: #323232;
 }
 
-#signup-form a:hover {
+#signup-form a {
   color: rgb(212, 222, 0);
 }
 
@@ -72,13 +72,13 @@ p {
   height: 30px;
   display: block;
   margin: 20px auto;
-  color: #808080;
+  color: #323232;
 }
 
-.demo {
-  color: rgb(212, 222, 0);
+#error-message {
+  height: 50px;
+  color: #FFF;
 }
-
 
 
 @media screen and (max-width: 768px) {
