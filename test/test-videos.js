@@ -129,7 +129,10 @@ describe('Protected endpoint', function() {
           return Video.count();
         })
         .then(function(count) {
-          res.body.videos.should.have.lengthOf(count);
+          // TODO: fixed.
+          // Video.count() doesnt work here because it gives you the whole notes
+          // collection. We only want the notes for the user we created. 10 is fine
+          res.body.videos.should.have.lengthOf(10);
         });
     });
 
@@ -194,7 +197,7 @@ describe('Protected endpoint', function() {
              video.link.should.equal(newVideo.link);
            });
        });
-       
+
   });
 
  describe('PUT endpoint', function() {
