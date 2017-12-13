@@ -31,12 +31,6 @@ function seedNoteData() {
   return Note.insertMany(seedData);
 }
 
-// function generateNoteSubject() {
-//   const subjects = [
-//     'English', 'History', 'Math', 'Science'];
-//   return subjects[Math.floor(Math.random() * subjects.length)];
-// }
-
 function generateNoteTitle() {
   const titles = ['ENG 101', 'HIS 200', 'CAL 321', 'PHY 400'];
   return titles[Math.floor(Math.random() * titles.length)];
@@ -119,9 +113,6 @@ describe('Protected endpoint', function() {
     return User.remove({});
   });
 
-  // TODO: DO all normal tests like restaurants -> for notes
-  // https://github.com/Thinkful-Ed/node-restaurants-app-mongoose/blob/feature/with-tests/test/test-restaurants-integration.js
-
 
   describe('GET endpoint', function() {
 
@@ -190,75 +181,75 @@ describe('Protected endpoint', function() {
               .set('authorization', `Bearer ${createToken()}`)
               .then(function(res) {
                 res.should.have.status(201);
-                // res.should.be.json;
-                // res.body.should.be.a('object');
-                // res.body.should.include.keys(
-                //   'subject', 'title', 'content');
-                // res.body.id.should.not.be.null;
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.should.include.keys(
+                  'subject', 'title', 'content');
+                res.body.id.should.not.be.null;
                 // res.body.subject.should.equal(newNote.subject);
-                // res.body.title.should.equal(newNote.title);
-                // res.body.content.should.equal(newNote.content);
-                // return Note.findById(res.body.id);
+                res.body.title.should.equal(newNote.title);
+                res.body.content.should.equal(newNote.content);
+                return Note.findById(res.body.id);
               })
-              // .then(function(note) {
-              //   note.subject.should.equal(newNote.subject);
-              //   note.title.should.equal(newNote.title);
-              //   note.content.should.equal(newNote.content);
-              // });
+              .then(function(note) {
+                // note.subject.should.equal(newNote.subject);
+                note.title.should.equal(newNote.title);
+                note.content.should.equal(newNote.content);
+              });
           });
 
      });
-    //
-    // describe('PUT endpoint', function() {
-    //
-    //    it('should update note fields', function() {
-    //      const updateData = {
-    //        title: 'New Title',
-    //        content: 'New Content'
-    //      };
-    //
-    //      return Note
-    //        .findOne()
-    //        .then(function(note) {
-    //          updateData.id = note.id;
-    //
-    //          return chai.request(app)
-    //            .put(`/api/notes/${note.id}`)
-    //            .send(updateData)
-    //            .set('authorization', `Bearer ${createToken()}`);
-    //        })
-    //        .then(function(res) {
-    //          res.should.have.status(204);
-    //
-    //          return Note.findById(updateData.id);
-    //        })
-    //        .then(function(note) {
-    //          note.title.should.equal(updateData.title);
-    //          note.content.should.equal(updateData.content);
-    //        });
-    //    });
-    //  });
-    //
-    //  describe('DELETE endpoint', function() {
-    //
-    //    it('delete a note by id', function() {
-    //
-    //      let note;
-    //
-    //      return Note
-    //        .findOne()
-    //        .then(function(_note) {
-    //          note = _note;
-    //          return chai.request(app).delete(`/api/notes/${note.id}`)
-    //        .set('authorization', `Bearer ${createToken()}`);
-    //        })
-    //        .then(function(res) {
-    //          res.should.have.status(204);
-    //          return Note.findById(note.id);
-    //        })
-    //        .then(function(_note) {
-    //          should.not.exist(_note);
-    //        });
-    //    });
-  //});
+      
+      describe('PUT endpoint', function() {
+      
+         it('should update note fields', function() {
+           const updateData = {
+             title: 'New Title',
+             content: 'New Content'
+           };
+      
+           return Note
+             .findOne()
+             .then(function(note) {
+               updateData.id = note.id;
+      
+               return chai.request(app)
+                 .put(`/api/notes/${note.id}`)
+                 .send(updateData)
+                 .set('authorization', `Bearer ${createToken()}`);
+             })
+             .then(function(res) {
+               res.should.have.status(204);
+      
+               return Note.findById(updateData.id);
+             })
+             .then(function(note) {
+               note.title.should.equal(updateData.title);
+               note.content.should.equal(updateData.content);
+             });
+         });
+       });
+    
+     describe('DELETE endpoint', function() {
+    
+       it('delete a note by id', function() {
+    
+         let note;
+    
+         return Note
+           .findOne()
+           .then(function(_note) {
+             note = _note;
+             return chai.request(app).delete(`/api/notes/${note.id}`)
+           .set('authorization', `Bearer ${createToken()}`);
+           })
+           .then(function(res) {
+             res.should.have.status(204);
+             return Note.findById(note.id);
+           })
+           .then(function(_note) {
+             should.not.exist(_note);
+           });
+       });
+  });
 });

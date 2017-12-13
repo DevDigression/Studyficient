@@ -8,12 +8,19 @@ const should = chai.should();
 const {app, runServer, closeServer} = require('../server');
 const {User} = require('../users');
 const {Video} = require('../videos');
+const {Subject} = require('../subjects');
 
 const {JWT_SECRET, TEST_DATABASE_URL} = require('../config');
 
 const expect = chai.expect;
 
 chai.use(chaiHttp);
+
+const username = 'exampleUser';
+const password = 'examplePass';
+let user;
+let subject;
+
 
 function seedVideoData() {
   console.info('seeding video data');
@@ -23,12 +30,6 @@ function seedVideoData() {
     seedData.push(generateVideoData());
   }
   return Video.insertMany(seedData);
-}
-
-function generateVideoSubject() {
-  const subjects = [
-    'English', 'History', 'Math', 'Science'];
-  return subjects[Math.floor(Math.random() * subjects.length)];
 }
 
 function generateVideoTitle() {
@@ -43,10 +44,10 @@ function generateVideoLink() {
 
 function generateVideoData() {
   return {
-    subject: generateVideoSubject(),
+    subject: subject._id,
     title: generateVideoTitle(),
     link: generateVideoLink(),
-    user: '5a2c382af504340014e01db4'
+    user: user._id
   };
 }
 
@@ -55,14 +56,12 @@ function tearDownDb() {
   return mongoose.connection.dropDatabase();
 }
 
-
-describe('Protected endpoint', function() {
-  const username = 'exampleUser';
-  const password = 'examplePass';
-  const token = jwt.sign(
+function createToken(){
+  return jwt.sign(
     {
       user: {
         username,
+        id:user._id
       }
     },
     JWT_SECRET,
@@ -71,7 +70,10 @@ describe('Protected endpoint', function() {
       subject: username,
       expiresIn: '7d'
     }
-  );
+  )
+}
+
+describe('Protected endpoint', function() {
 
   before(function() {
     return runServer(TEST_DATABASE_URL);
@@ -81,7 +83,7 @@ describe('Protected endpoint', function() {
     return closeServer();
   });
 
- afterEach(function() {
+  afterEach(function() {
     return tearDownDb();
   });
 
@@ -90,8 +92,18 @@ describe('Protected endpoint', function() {
       User.create({
         username,
         password
-      })
+      }).then(_user => user = _user)
     );
+  });
+
+  beforeEach(function() {
+    return Subject
+    .create({
+      user: user._id,
+      name: "A test subject"
+    })
+    .then(_subject => subject = _subject)
+
   });
 
   beforeEach(function() {
@@ -102,13 +114,14 @@ describe('Protected endpoint', function() {
     return User.remove({});
   });
 
+
   describe('GET endpoint', function() {
 
     it('should return all existing videos', function() {
       let res;
       return chai.request(app)
         .get('/api/videos')
-        .set('authorization', `Bearer ${token}`)
+        .set('authorization', `Bearer ${createToken()}`)
         .then(function(_res) {
           res = _res;
           res.should.have.status(200);
@@ -125,7 +138,7 @@ describe('Protected endpoint', function() {
       let resVideo;
       return chai.request(app)
         .get('/api/videos')
-        .set('authorization', `Bearer ${token}`)
+        .set('authorization', `Bearer ${createToken()}`)
         .then(function(res) {
           res.should.have.status(200);
           res.should.be.json;
@@ -143,7 +156,7 @@ describe('Protected endpoint', function() {
         .then(function(video) {
           // resVideo.subject.should.equal(video.subject);
           resVideo.title.should.equal(video.title);
-          resVideo.content.should.equal(video.content);
+          resVideo.link.should.equal(video.link);
         });
     });
   });
@@ -153,33 +166,33 @@ describe('Protected endpoint', function() {
     it('should add a new video', function() {
 
           const newVideo = {
-            subject: '5a2c38e721859d24ec94ab3e',
+            subject: subject._id,
             title: 'American Revolution',
             link: 'https://www.youtube.com/watch?v=HlUiSBXQHCw',
-            user: '5a2c382af504340014e01db4'
+            user: user._id
           };
 
          return chai.request(app)
            .post('/api/videos')
            .send(newVideo)
-           .set('authorization', `Bearer ${token}`)
+           .set('authorization', `Bearer ${createToken()}`)
            .then(function(res) {
              res.should.have.status(201);
-             // res.should.be.json;
-             // res.body.should.be.a('object');
-             // res.body.should.include.keys(
-             //   'subject', 'title', 'link', 'user');
-             // res.body.id.should.not.be.null;
+             res.should.be.json;
+             res.body.should.be.a('object');
+             res.body.should.include.keys(
+               'subject', 'title', 'link', 'user');
+             res.body.id.should.not.be.null;
              // res.body.subject.should.equal(newVideo.subject);
-             // res.body.title.should.equal(newVideo.title);
-             // res.body.link.should.equal(newVideo.link);
-             // return Video.findById(res.body.id);
+             res.body.title.should.equal(newVideo.title);
+             res.body.link.should.equal(newVideo.link);
+             return Video.findById(res.body.id);
            })
-           // .then(function(video) {
-           //   video.subject.should.equal(newVideo.subject);
-           //   video.title.should.equal(newVideo.title);
-           //   video.link.should.equal(newVideo.link);
-           // });
+           .then(function(video) {
+             // video.subject.should.equal(newVideo.subject);
+             video.title.should.equal(newVideo.title);
+             video.link.should.equal(newVideo.link);
+           });
        });
        
   });
@@ -200,7 +213,7 @@ describe('Protected endpoint', function() {
           return chai.request(app)
             .put(`/api/videos/${video.id}`)
             .send(updateData)
-            .set('authorization', `Bearer ${token}`);
+            .set('authorization', `Bearer ${createToken()}`);
         })
         .then(function(res) {
           res.should.have.status(204);
@@ -225,7 +238,7 @@ describe('Protected endpoint', function() {
         .then(function(_video) {
           video = _video;
           return chai.request(app).delete(`/api/videos/${video.id}`)
-        .set('authorization', `Bearer ${token}`);
+        .set('authorization', `Bearer ${createToken()}`);
         })
         .then(function(res) {
           res.should.have.status(204);
