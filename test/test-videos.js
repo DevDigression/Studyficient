@@ -125,12 +125,12 @@ describe('Protected endpoint', function() {
         .then(function(_res) {
           res = _res;
           res.should.have.status(200);
-          res.body.videos.should.have.length.of.at.least(1);
+          res.body.videos.should.have.lengthOf.at.least(1);
           return Video.count();
         })
-        // .then(function(count) {
-        //   res.body.videos.should.have.length.of(count);
-        // });
+        .then(function(count) {
+          res.body.videos.should.have.lengthOf(count);
+        });
     });
 
 
