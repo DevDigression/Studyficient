@@ -2,9 +2,6 @@ body, html {
   height:100%;
 }
 
-/**********************  Workspace  ********************************/
-
-
 body {
   padding-top: 50px;
 }
@@ -49,18 +46,30 @@ h1, h2, h3, h4 {
 	text-align: center;
 }
 
+#notes, #videos {
+  margin-top: 20px;
+}
+
 .study-header {
 	height: 50px;
-	padding-top: 15px;
+	padding-top: 5px;
 	text-align: center;
 	background: #808080;
   color: #FFF;
+}
+
+.study-header a {
+  text-decoration: none;
 }
 
 .note-card {
   border: 2px solid black;
   background: #808080;
   display: inline-block;
+}
+
+.notes-display, .videos-display {
+  margin-top: 30px;
 }
 
 .note-display {

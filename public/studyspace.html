@@ -49,35 +49,54 @@
 					<h2>Studyspace</h2>
 				</header>
 				<h3 id="get-started">Click a subject or add a new subject to get started!</h3>
-				<div id="notes" class="no-display">
-					<div class="row">
-						<div class="col-md-12">
-							<h4 class="study-header">Notes</h4>
-						</div>
-					</div>
-					<div class="row notes-display">
 
-					<!-- NOTES GO HERE -->
 
-					</div>
-					  <button class="new-note-button btn btn-primary">New Note</button>
-				</div>
-				<div id="videos" class="no-display">
-					<div class="row">
-						<div class="col-md-12">
-							<h4 class="study-header">Videos</h4>
-						</div>
-					</div>
-					<div class="row videos-display">
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="card">
+  	<div id="notes" class="no-display">
+    <div class="study-header" role="tab" id="headingOne">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <h4 class="study-header">Notes</h4>
+        </a>
+      </h5>
+    </div>
 
-					<!-- VIDEOS GO HERE -->
+    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+			<div class="row notes-display">
 
-					</div>
-					 <button class="new-video-button btn btn-primary">New Video</button>
-				</div>
+			<!-- NOTES GO HERE -->
+
 			</div>
+			<button class="new-note-button btn btn-primary">New Note</button>
 		</div>
-	</div>
+    </div>
+  </div>
+</div>
+
+
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="card">
+  	<div id="videos" class="no-display">
+    <div class="study-header" role="tab" id="headingTwo">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <h4 class="study-header">Videos</h4>
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+			<div class="row videos-display">
+
+			<!-- VIDEOS GO HERE -->
+
+			</div>
+			<button class="new-video-button btn btn-primary">New Video</button>
+		</div>
+    </div>
+  </div>
+</div>
 
 
 <form class="new-note-form">
