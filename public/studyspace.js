@@ -17,7 +17,8 @@ $(() => {
 
   $('#logout').click((event) => {
     event.preventDefault();
-    state.token = localStorage.clear();
+    state.token = "";
+    localStorage.clear();
     window.location = "/login.html";
   });
 

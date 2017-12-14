@@ -1,4 +1,8 @@
 $(() => {
+	const token =localStorage.getItem('token');
+	if (token) {
+		window.location = "/studyspace.html";
+	}
 	$('#signup-form').submit((event) =>{
 		event.preventDefault();
 
