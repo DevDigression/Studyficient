@@ -153,7 +153,7 @@ describe('Protected endpoint', function() {
              return Note.findById(resNote.id);
            })
            .then(function(note) {
-             // resNote.subject.should.equal(note.subject);
+             resNote.subject.should.equal(note.subject.toString());
              resNote.title.should.equal(note.title);
              resNote.content.should.equal(note.content);
            });
@@ -186,13 +186,13 @@ describe('Protected endpoint', function() {
                 res.body.should.include.keys(
                   'subject', 'title', 'content');
                 res.body.id.should.not.be.null;
-                // res.body.subject.should.equal(newNote.subject);
+                res.body.subject.should.equal(newNote.subject.toString());
                 res.body.title.should.equal(newNote.title);
                 res.body.content.should.equal(newNote.content);
                 return Note.findById(res.body.id);
               })
               .then(function(note) {
-                // note.subject.should.equal(newNote.subject);
+                note.subject.toString().should.equal(newNote.subject.toString());
                 note.title.should.equal(newNote.title);
                 note.content.should.equal(newNote.content);
               });

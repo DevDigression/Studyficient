@@ -156,7 +156,7 @@ describe('Protected endpoint', function() {
           return Video.findById(resVideo.id);
         })
         .then(function(video) {
-          // resVideo.subject.should.equal(video.subject);
+          resVideo.subject.should.equal(video.subject.toString());
           resVideo.title.should.equal(video.title);
           resVideo.link.should.equal(video.link);
         });
@@ -185,13 +185,13 @@ describe('Protected endpoint', function() {
              res.body.should.include.keys(
                'subject', 'title', 'link', 'user');
              res.body.id.should.not.be.null;
-             // res.body.subject.should.equal(newVideo.subject);
+             res.body.subject.should.equal(newVideo.subject.toString());
              res.body.title.should.equal(newVideo.title);
              res.body.link.should.equal(newVideo.link);
              return Video.findById(res.body.id);
            })
            .then(function(video) {
-             // video.subject.should.equal(newVideo.subject);
+             video.subject.toString().should.equal(newVideo.subject.toString());
              video.title.should.equal(newVideo.title);
              video.link.should.equal(newVideo.link);
            });
