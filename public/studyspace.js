@@ -21,9 +21,6 @@ $(() => {
     window.location = "/login.html";
   });
 
-  /******************************** NOTES ********************************/
-
-
   $('#add-subject').click(function() {
     $('#new-subject-form').removeClass('no-display');
     $('#get-started').addClass('no-display');
@@ -115,8 +112,6 @@ $(() => {
   		clearNoteModal();
 	});
 
-/******************************** VIDEOS ********************************/
-
   $('.new-video-button').click(() => {
     $('#video-modal').modal('show')
   });
@@ -160,12 +155,8 @@ $(() => {
   		event.preventDefault();
   		clearVideoModal();
 	});
-
-/**** END DOC READY ****/
 });
 
-
-/******************************** NOTES ********************************/
 
 function clearNoteModal() {
   $('#note-text').val("");
@@ -338,8 +329,6 @@ function deleteNote(id) {
 	});
 }
 
-
-/******************************** VIDEOS ********************************/
 
 function clearVideoModal() {
   $('#video-text').val("");

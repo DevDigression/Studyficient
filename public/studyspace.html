@@ -51,103 +51,103 @@
 				<h3 id="get-started">Click a subject or add a new subject to get started!</h3>
 
 
-<div id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="card">
-  	<div id="notes" class="no-display">
-    <div class="study-header" role="tab" id="headingOne">
-      <h5 class="mb-0">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <h4 class="study-header">Notes</h4>
-        </a>
-      </h5>
-    </div>
+		<div id="accordion" role="tablist" aria-multiselectable="true">
+		  <div class="card">
+		  	<div id="notes" class="no-display">
+		    <div class="study-header" role="tab" id="headingOne">
+		      <h5 class="mb-0">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		          <h4 class="study-header">Notes</h4>
+		        </a>
+		      </h5>
+		    </div>
 
-    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-			<div class="row notes-display">
+		    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+					<div class="row notes-display">
 
-			<!-- NOTES GO HERE -->
+					<!-- NOTES GO HERE -->
 
-			</div>
-			<button class="new-note-button btn btn-primary">New Note</button>
+					</div>
+					<button class="new-note-button btn btn-primary">New Note</button>
+				</div>
+		    </div>
+		  </div>
 		</div>
-    </div>
-  </div>
-</div>
 
 
-<div id="accordion" role="tablist" aria-multiselectable="true">
-  <div class="card">
-  	<div id="videos" class="no-display">
-    <div class="study-header" role="tab" id="headingTwo">
-      <h5 class="mb-0">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <h4 class="study-header">Videos</h4>
-        </a>
-      </h5>
-    </div>
+		<div id="accordion" role="tablist" aria-multiselectable="true">
+		  <div class="card">
+		  	<div id="videos" class="no-display">
+		    <div class="study-header" role="tab" id="headingTwo">
+		      <h5 class="mb-0">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+		          <h4 class="study-header">Videos</h4>
+		        </a>
+		      </h5>
+		    </div>
 
-    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-			<div class="row videos-display">
+		    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+					<div class="row videos-display">
 
-			<!-- VIDEOS GO HERE -->
+					<!-- VIDEOS GO HERE -->
 
-			</div>
-			<button class="new-video-button btn btn-primary">New Video</button>
+					</div>
+					<button class="new-video-button btn btn-primary">New Video</button>
+				</div>
+		    </div>
+		  </div>
 		</div>
-    </div>
-  </div>
-</div>
 
 
-<form class="new-note-form">
-<div class="modal fade note-modal" id="note-modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <label>Title:</label>
-        <input class="modal-title" id="note-title" type="text" name="" value="" placeholder="Note Title">
-        <button type="button" class="close no-display" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-			<span id="note-id"></span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	<label>Note content:</label>
-      	<textarea rows="6" name="note" id="note-text" form="note-form" placeholder="Type note here"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button id="modal-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="note-save" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
-</form>
+		<form class="new-note-form">
+		<div class="modal fade note-modal" id="note-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <label>Title:</label>
+		        <input class="modal-title" id="note-title" type="text" name="" value="" placeholder="Note Title">
+		        <button type="button" class="close no-display" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+					<span id="note-id"></span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<label>Note content:</label>
+		      	<textarea rows="6" name="note" id="note-text" form="note-form" placeholder="Type note here"></textarea>
+		      </div>
+		      <div class="modal-footer">
+		        <button id="modal-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button id="note-save" class="btn btn-primary">Submit</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</form>
 
-<form class="new-video-form">
-<div class="modal fade video-modal" id="video-modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <label>Title:</label>
-        <input class="modal-title" id="video-title" type="text" name="" value="" placeholder="Video Title">
-        <button type="button" class="close no-display" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-			<span id="video-id"></span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	<label>Video URL:</label>
-      	<textarea rows="1" name="video" id="video-text" form="video-form" placeholder="Paste Youtube or Vimeo video URL here"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button id="modal-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button id="video-save" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
-</form>
+		<form class="new-video-form">
+		<div class="modal fade video-modal" id="video-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <label>Title:</label>
+		        <input class="modal-title" id="video-title" type="text" name="" value="" placeholder="Video Title">
+		        <button type="button" class="close no-display" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+					<span id="video-id"></span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      	<label>Video URL:</label>
+		      	<textarea rows="1" name="video" id="video-text" form="video-form" placeholder="Paste Youtube or Vimeo video URL here"></textarea>
+		      </div>
+		      <div class="modal-footer">
+		        <button id="modal-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button id="video-save" class="btn btn-primary">Submit</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</form>
 
 
 

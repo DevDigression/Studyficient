@@ -33,7 +33,6 @@ function login(userData) {
 		},
 		error: function(errorData){
 			$("#error-message").html(`***** Invalid username or password *****`)
-			// $("#error-message").text("Error: " + errorData.responseText)
 		},
 	});
 }

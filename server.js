@@ -1,6 +1,6 @@
 'use strict';
 require('dotenv').config();
-const {PORT, DATABASE_URL} = require('./config');
+const {PORT, DATABASE_URL, TEST_DATABASE_URL} = require('./config');
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -18,19 +18,16 @@ const {Subject} = require('./subjects/models');
 
 mongoose.Promise = global.Promise;
 
-const { router: usersRouter } = require('./users');
-const { router: subjectsRouter } = require('./subjects');
-const { router: notesRouter } = require('./notes');
-const { router: videosRouter } = require('./videos');
+const {router: usersRouter} = require('./users');
+const {router: subjectsRouter} = require('./subjects');
+const {router: notesRouter} = require('./notes');
+const {router: videosRouter} = require('./videos');
 
-const { router: authRouter, localStrategy, jwtStrategy } = require('./auth');
+const {router: authRouter, localStrategy, jwtStrategy} = require('./auth');
 
-
-// Logging
 app.use(morgan('common'));
 app.use(express.static('public'));
 
-// CORS
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
@@ -50,13 +47,6 @@ app.use('/api/subjects/', subjectsRouter);
 app.use('/api/notes/', notesRouter);
 app.use('/api/videos/', videosRouter);
 const jwtAuth = passport.authenticate('jwt', { session: false });
-
-// A protected endpoint which needs a valid JWT to access it
-// app.get('/api/protected', jwtAuth, (req, res) => {
-//   return res.json({
-//     data: 'rosebud'
-//   });
-// });
 
 let server;
 
