@@ -110,7 +110,7 @@ describe('Protected endpoint', function() {
   });
 
   afterEach(function() {
-    return User.remove({});
+    return Note.remove({});
   });
 
 
@@ -199,20 +199,20 @@ describe('Protected endpoint', function() {
           });
 
      });
-      
+
       describe('PUT endpoint', function() {
-      
+
          it('should update note fields', function() {
            const updateData = {
              title: 'New Title',
              content: 'New Content'
            };
-      
+
            return Note
              .findOne()
              .then(function(note) {
                updateData.id = note.id;
-      
+
                return chai.request(app)
                  .put(`/api/notes/${note.id}`)
                  .send(updateData)
@@ -220,7 +220,7 @@ describe('Protected endpoint', function() {
              })
              .then(function(res) {
                res.should.have.status(204);
-      
+
                return Note.findById(updateData.id);
              })
              .then(function(note) {
@@ -229,13 +229,13 @@ describe('Protected endpoint', function() {
              });
          });
        });
-    
+
      describe('DELETE endpoint', function() {
-    
+
        it('delete a note by id', function() {
-    
+
          let note;
-    
+
          return Note
            .findOne()
            .then(function(_note) {
