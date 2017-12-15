@@ -2,6 +2,8 @@
 
 ## Thinkful Node/Fullstack Capstone Project
 
+[Try out Studyficient!](https://studyficient.herokuapp.com/ "Studyficient")
+
 ![alt text](https://github.com/DevDigression/Studyficient/blob/master/img/Studyficient%20Header.jpg "Studyficient - The Most Efficient Way to Study!")
 
 **Studyficient** is designed to help users have more convenience and improved focus in their study sessions by allowing them
