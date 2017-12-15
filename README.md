@@ -27,8 +27,13 @@ At any time, users can add and delete subjects as necessary:
 ## Technologies
 
 Server: **Node** with **Express**
+
 Database: **MongoDB** 
+
 Authentication: **Passport.js**
+
 Testing: **Mocha** with **Chai**
+
 Continuous integration: **Travis CI**  
+
 Frontend: **HTML5**, **CSS3**, and **Javascript**
