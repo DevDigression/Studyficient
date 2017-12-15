@@ -1,8 +1,8 @@
 $(() => {
-	const token =localStorage.getItem('token');
-	if (token) {
-		window.location = "/studyspace.html";
-	}
+	// const token =localStorage.getItem('token');
+	// if (token) {
+	// 	window.location = "/studyspace.html";
+	// }
 	$('#login-form').submit((event) =>{
 		event.preventDefault();
 		let userData = {
