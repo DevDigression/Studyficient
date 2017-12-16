@@ -6,7 +6,7 @@ $(() => {
   });
 
 
-	const token =localStorage.getItem('token');
+	const token = localStorage.getItem('token');
 
 	if (token) {
 		$('#navbar').html(
