@@ -10,7 +10,11 @@ let state = {
 }
 
 $(() => {
-	state.token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location = "/login.html";
+  }
+	state.token = localStorage.getItem('token');
   $('[data-toggle=offcanvas]').click(function() {
     $('.row-offcanvas').toggleClass('active');
   });

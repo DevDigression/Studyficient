@@ -1,8 +1,8 @@
 $(() => {
-	// const token = localStorage.getItem('token');
-	// if (token) {
-	// 	window.location = "/studyspace.html";
-	// }
+	const token = localStorage.getItem('token');
+	if (token) {
+		window.location = "/studyspace.html";
+	}
 	$('#signup-form').submit((event) =>{
 		event.preventDefault();
 
@@ -22,8 +22,7 @@ function signup(userData) {
 	        contentType: 'application/json; charset=utf-8',
 	        dataType: 'json',
 	        success: function(data){
-	            localStorage.setItem('token', data.authToken);
-	            window.location = '/login.html';
+	            login(userData);
 	        },
 	        error: function(errorData){
 	       		$('#error-message').html(`${errorData.responseJSON.reason}: ${errorData.responseJSON.message}`);

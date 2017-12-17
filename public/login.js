@@ -1,8 +1,8 @@
 $(() => {
-	// const token = localStorage.getItem('token');
-	// if (token) {
-	// 	window.location = "/studyspace.html";
-	// }
+	const token = localStorage.getItem('token');
+	if (token) {
+		window.location = "/studyspace.html";
+	}
 	$('#login-form').submit((event) =>{
 		event.preventDefault();
 		let userData = {
@@ -30,8 +30,7 @@ function login(userData) {
 		contentType: 'application/json; charset=utf-8',
 		dataType: 'json',
 		success: function(data){
-			console.log(data.authToken);
-			console.log("Success!");
+			console.log("Login: " + data.authToken);
 			localStorage.setItem('token', data.authToken);
 			window.location = '/studyspace.html';
 		},
